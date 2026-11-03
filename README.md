@@ -17,6 +17,10 @@ Experience the live interactive workshop and 2.5D runtime directly in your brows
   6. **Tex / Susumu Godai (五代 奨)**: Tanibana High Bōjutsu Boss (Dark Navy Blue uniform, spiky flattop haircut, `sprite52` & `sprite61`).
   7. **Rocko / Yasuo Sawaguchi (沢口 靖夫)**: Hakutaka Industrial High Brawler (Salmon / Coral Pink uniform, shaggy mullet hair, `sprite53` & `sprite60`).
   8. **Core Baseline**: Alex / Kunio (4-Frame Core Baseline).
+- **Redesigned Mobile-First Hierarchy**: Restrained neutral dark slate theme letting authentic NES character sprites be the focal point without decorative neon excess.
+- **Genuine Mobile Responsiveness**: Zero horizontal overflow across viewports from 320px mobile to 4K desktop, with responsive 44px touch targets.
+- **On-Screen Mobile Touch Controls**: Integrated virtual D-Pad (Up, Down, Left, Right) and combat strike buttons (Punch, Kick) allowing full 2.5D belt-scroll traversal and combat on smartphones and touch devices.
+- **Interactive Character Roster**: 8 instant-switch roster chips and accessible dropdown synced in real-time.
 - **Dual Viewport**: Real-time side-by-side synchronized 2D pixel canvas and Three.js 2.5D WebGL scene with orbit camera controls.
 - **Action Suite**: Idle, Walk, Punch, Kick, Hurt, and Knockdown animations with 60Hz NES tick timing accuracy.
 - **Head/Body Consistency Discipline**: Adheres strictly to Technōs Japan's modular $8 \times 16$ PPU metasprite composition architecture.

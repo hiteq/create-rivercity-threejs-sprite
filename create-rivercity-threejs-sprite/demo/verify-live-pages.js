@@ -107,42 +107,75 @@ async function runLiveVerification() {
     checks.adapterLoaded = await evaluate('typeof RiverCity.ThreeSpriteAdapter === "function"');
     checks.animCardsCount = await evaluate('document.querySelectorAll(".anim-card").length');
     checks.quickButtonsCount = await evaluate('document.querySelectorAll(".action-trigger-btn").length');
+    checks.rosterChipsCount = await evaluate('document.querySelectorAll(".char-chip").length');
     checks.canvasWidth = await evaluate('document.getElementById("pixel-canvas").width');
     checks.atlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
     checks.threeCanvasExists = await evaluate('!!document.querySelector(".three-container canvas")');
+    checks.desktopNoOverflow = await evaluate('document.documentElement.scrollWidth <= window.innerWidth');
 
     // Test interactivity: trigger punch action
-    await evaluate('document.querySelector(".anim-card[data-anim=\'punch\']").click()');
+    await evaluate('document.querySelector(".action-trigger-btn[data-action=\'punch\']").click()');
     await new Promise((r) => setTimeout(r, 500));
     checks.punchActive = await evaluate('document.getElementById("detail-frame-id").textContent');
 
-    // Test switching preset to ryan
-    await evaluate('window.demoApp.loadPreset("ryan")');
+    // Test switching preset to ryan via Roster Chip
+    await evaluate('document.querySelector(\'.char-chip[data-preset="ryan"]\').click()');
     await new Promise((r) => setTimeout(r, 800));
     checks.ryanAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
     checks.ryanAtlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
 
-    // Test switching preset to gouda
-    await evaluate('window.demoApp.loadPreset("gouda")');
+    // Test switching preset to gouda via Roster Chip
+    await evaluate('document.querySelector(\'.char-chip[data-preset="gouda"]\').click()');
     await new Promise((r) => setTimeout(r, 800));
     checks.goudaAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
 
-    // Test switching preset to ryuichi
-    await evaluate('window.demoApp.loadPreset("ryuichi")');
+    // Test switching preset to ryuichi via Roster Chip
+    await evaluate('document.querySelector(\'.char-chip[data-preset="ryuichi"]\').click()');
     await new Promise((r) => setTimeout(r, 800));
     checks.ryuichiAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
 
-    // Test switching preset to basic
-    await evaluate('window.demoApp.loadPreset("basic")');
+    // Test switching preset to basic via Roster Chip
+    await evaluate('document.querySelector(\'.char-chip[data-preset="basic"]\').click()');
     await new Promise((r) => setTimeout(r, 800));
     checks.basicAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
     checks.basicAtlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
 
-    // Test switching to ryuichi for showcase
-    await evaluate('window.demoApp.loadPreset("ryuichi")');
-    await evaluate('document.getElementById("char-select").value = "ryuichi"');
+    // Test switching back to ryuichi for showcase
+    await evaluate('document.querySelector(\'.char-chip[data-preset="ryuichi"]\').click()');
     await new Promise((r) => setTimeout(r, 800));
     checks.expandedAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
+
+    // Test Mobile Responsiveness and Touch Controls on Live Site
+    await sendCommand('Emulation.setDeviceMetricsOverride', {
+      width: 390,
+      height: 844,
+      deviceScaleFactor: 2,
+      mobile: true,
+      hasTouch: true
+    });
+    await evaluate('window.dispatchEvent(new Event("resize"))');
+    await new Promise((r) => setTimeout(r, 600));
+    checks.mobileNoOverflow = await evaluate('document.documentElement.scrollWidth <= 390');
+
+    // Test mobile touch punch
+    await evaluate(`
+      const touchPunch = document.getElementById("touch-punch");
+      if (touchPunch) {
+        touchPunch.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, cancelable: true }));
+        touchPunch.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, cancelable: true }));
+      }
+    `);
+    checks.mobileTouchPunch = await evaluate('window.demoApp && window.demoApp.getPlayer().currentAnimationName === "punch"');
+
+    // Reset to desktop for screenshot
+    await sendCommand('Emulation.setDeviceMetricsOverride', {
+      width: 1280,
+      height: 900,
+      deviceScaleFactor: 1,
+      mobile: false
+    });
+    await evaluate('window.dispatchEvent(new Event("resize"))');
+    await new Promise((r) => setTimeout(r, 600));
 
     // Test 3D camera orbit control interaction
     await evaluate(`
@@ -171,6 +204,10 @@ async function runLiveVerification() {
     console.log(`Atlas Canvas Width: ${checks.atlasWidth}px`);
     console.log(`Expanded Animation Cards: ${checks.animCardsCount}`);
     console.log(`Quick Action Buttons: ${checks.quickButtonsCount}`);
+    console.log(`Roster Chips Count: ${checks.rosterChipsCount}`);
+    console.log(`Desktop No Overflow: ${checks.desktopNoOverflow ? 'PASS' : 'FAIL'}`);
+    console.log(`Mobile No Overflow: ${checks.mobileNoOverflow ? 'PASS' : 'FAIL'}`);
+    console.log(`Mobile Touch Punch: ${checks.mobileTouchPunch ? 'PASS' : 'FAIL'}`);
     console.log(`Interactivity (Punch trigger): ${checks.punchActive}`);
     console.log(`Preset Switching (Basic -> ${checks.basicAnimCount} cards, Atlas: ${checks.basicAtlasWidth}px)`);
     console.log(`Preset Switching (Expanded -> ${checks.expandedAnimCount} cards)`);

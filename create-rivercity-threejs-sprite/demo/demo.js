@@ -148,6 +148,7 @@
   let showHitboxes = true;
   let showRival = true;
   let showShadows = true;
+  let showTouchPad = true;
   let currentViewMode = 'three-view'; // 'three-view', 'canvas-view', 'split-view'
 
   // Clock
@@ -346,6 +347,25 @@
   }
 
   function onWindowResize() {
+    if (currentViewMode === 'split-view') {
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        threeStage.style.width = '100%';
+        threeStage.style.height = '50%';
+        threeStage.style.float = 'none';
+        canvasStage.style.width = '100%';
+        canvasStage.style.height = '50%';
+        canvasStage.style.float = 'none';
+      } else {
+        threeStage.style.width = '50%';
+        threeStage.style.height = '100%';
+        threeStage.style.float = 'left';
+        canvasStage.style.width = '50%';
+        canvasStage.style.height = '100%';
+        canvasStage.style.float = 'left';
+      }
+    }
+
     if (!threeRenderer || !threeCamera) return;
     const width = threeStage.clientWidth || 800;
     const height = threeStage.clientHeight || 480;
@@ -446,6 +466,17 @@
       populateQuickActionButtons();
       updateFrameInspector();
       updateScrubberBounds();
+
+      // Update Character Selector & Roster Chips
+      if (charSelect && charSelect.value !== presetKey) {
+        charSelect.value = presetKey;
+      }
+      const rosterChips = document.querySelectorAll('.char-chip');
+      rosterChips.forEach(chip => {
+        const isMatch = chip.dataset.preset === presetKey;
+        chip.classList.toggle('active', isMatch);
+        chip.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
 
       // Update Character Bio Card
       const charConfig = PRESETS[presetKey] || PRESETS.expanded;
@@ -770,11 +801,13 @@
     quickActionButtons.innerHTML = '';
     if (!activeManifest || !activeManifest.animations) return;
 
+    const currentAnim = player ? player.currentAnimationName : 'idle';
     const priorityOrder = ['idle', 'walk', 'punch', 'kick', 'hurt', 'down'];
     for (const action of priorityOrder) {
       if (activeManifest.animations[action]) {
         const btn = document.createElement('button');
-        btn.className = 'action-trigger-btn';
+        btn.className = `action-trigger-btn ${action === currentAnim ? 'active' : ''}`;
+        btn.dataset.action = action;
         btn.textContent = action.toUpperCase();
         btn.addEventListener('click', () => playAnimation(action));
         quickActionButtons.appendChild(btn);
@@ -795,6 +828,10 @@
     const cards = animList.querySelectorAll('.anim-card');
     cards.forEach(c => {
       c.classList.toggle('active', c.dataset.anim === name);
+    });
+    const actionBtns = quickActionButtons.querySelectorAll('.action-trigger-btn');
+    actionBtns.forEach(b => {
+      b.classList.toggle('active', b.dataset.action === name);
     });
   }
 
@@ -894,27 +931,52 @@
     tabCanvas.classList.toggle('active', mode === 'canvas-view');
     tabSplit.classList.toggle('active', mode === 'split-view');
 
+    tabThree.setAttribute('aria-selected', mode === 'three-view' ? 'true' : 'false');
+    tabCanvas.setAttribute('aria-selected', mode === 'canvas-view' ? 'true' : 'false');
+    tabSplit.setAttribute('aria-selected', mode === 'split-view' ? 'true' : 'false');
+
+    const touchController = document.getElementById('touch-controller');
+
     if (mode === 'three-view') {
       threeStage.style.display = 'block';
       threeStage.style.width = '100%';
+      threeStage.style.height = '100%';
+      threeStage.style.float = 'none';
       canvasStage.style.display = 'none';
       threeTools.style.display = 'flex';
       canvasTools.style.display = 'none';
+      if (touchController) touchController.style.display = showTouchPad ? 'flex' : 'none';
     } else if (mode === 'canvas-view') {
       threeStage.style.display = 'none';
       canvasStage.style.display = 'flex';
       canvasStage.style.width = '100%';
+      canvasStage.style.height = '100%';
+      canvasStage.style.float = 'none';
       threeTools.style.display = 'none';
       canvasTools.style.display = 'flex';
+      if (touchController) touchController.style.display = 'none';
     } else if (mode === 'split-view') {
+      const isMobile = window.innerWidth <= 768;
       threeStage.style.display = 'block';
-      threeStage.style.width = '50%';
-      threeStage.style.float = 'left';
       canvasStage.style.display = 'flex';
-      canvasStage.style.width = '50%';
-      canvasStage.style.float = 'left';
+      if (isMobile) {
+        threeStage.style.width = '100%';
+        threeStage.style.height = '50%';
+        threeStage.style.float = 'none';
+        canvasStage.style.width = '100%';
+        canvasStage.style.height = '50%';
+        canvasStage.style.float = 'none';
+      } else {
+        threeStage.style.width = '50%';
+        threeStage.style.height = '100%';
+        threeStage.style.float = 'left';
+        canvasStage.style.width = '50%';
+        canvasStage.style.height = '100%';
+        canvasStage.style.float = 'left';
+      }
       threeTools.style.display = 'flex';
       canvasTools.style.display = 'flex';
+      if (touchController) touchController.style.display = showTouchPad ? 'flex' : 'none';
     }
     onWindowResize();
   }
@@ -927,6 +989,18 @@
     charSelect.addEventListener('change', (e) => {
       currentPresetKey = e.target.value;
       loadPreset(currentPresetKey);
+    });
+
+    // Character Roster Quick Switcher Chips
+    const rosterChips = document.querySelectorAll('.char-chip');
+    rosterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const key = chip.dataset.preset;
+        if (key && PRESETS[key]) {
+          currentPresetKey = key;
+          loadPreset(key);
+        }
+      });
     });
 
     // View Tabs
@@ -1038,6 +1112,88 @@
       if (shadowMesh) shadowMesh.visible = showShadows;
       if (rivalShadowMesh) rivalShadowMesh.visible = showRival && showShadows;
     });
+
+    // Touch Pad Toggle
+    const btnToggleTouch = document.getElementById('btn-toggle-touch');
+    const touchController = document.getElementById('touch-controller');
+    if (btnToggleTouch && touchController) {
+      btnToggleTouch.addEventListener('click', () => {
+        showTouchPad = !showTouchPad;
+        btnToggleTouch.classList.toggle('active', showTouchPad);
+        if (currentViewMode !== 'canvas-view') {
+          touchController.style.display = showTouchPad ? 'flex' : 'none';
+        }
+      });
+    }
+
+    // Touch Controls: Directional D-Pad
+    function bindTouchKey(elemId, keyCode) {
+      const btn = document.getElementById(elemId);
+      if (!btn) return;
+      const press = (e) => {
+        if (e.cancelable) e.preventDefault();
+        keysDown.add(keyCode);
+        btn.classList.add('active');
+      };
+      const release = (e) => {
+        if (e.cancelable) e.preventDefault();
+        keysDown.delete(keyCode);
+        btn.classList.remove('active');
+      };
+      btn.addEventListener('pointerdown', press);
+      btn.addEventListener('pointerup', release);
+      btn.addEventListener('pointercancel', release);
+      btn.addEventListener('pointerleave', release);
+      btn.addEventListener('touchstart', press, { passive: false });
+      btn.addEventListener('touchend', release, { passive: false });
+      btn.addEventListener('touchcancel', release, { passive: false });
+    }
+
+    bindTouchKey('touch-up', 'KeyW');
+    bindTouchKey('touch-down', 'KeyS');
+    bindTouchKey('touch-left', 'KeyA');
+    bindTouchKey('touch-right', 'KeyD');
+
+    // Touch Controls: Combat Action Strikes
+    const btnTouchPunch = document.getElementById('touch-punch');
+    if (btnTouchPunch) {
+      const punchPress = (e) => {
+        if (e.cancelable) e.preventDefault();
+        playAnimation('punch');
+        btnTouchPunch.classList.add('active');
+      };
+      const punchRelease = (e) => {
+        if (e.cancelable) e.preventDefault();
+        btnTouchPunch.classList.remove('active');
+      };
+      btnTouchPunch.addEventListener('pointerdown', punchPress);
+      btnTouchPunch.addEventListener('pointerup', punchRelease);
+      btnTouchPunch.addEventListener('pointercancel', punchRelease);
+      btnTouchPunch.addEventListener('touchstart', punchPress, { passive: false });
+      btnTouchPunch.addEventListener('touchend', punchRelease, { passive: false });
+    }
+
+    const btnTouchKick = document.getElementById('touch-kick');
+    if (btnTouchKick) {
+      const kickPress = (e) => {
+        if (e.cancelable) e.preventDefault();
+        if (activeManifest && activeManifest.animations && activeManifest.animations['kick']) {
+          playAnimation('kick');
+        } else {
+          playAnimation('punch');
+        }
+        btnTouchKick.classList.add('active');
+      };
+      const kickRelease = (e) => {
+        if (e.cancelable) e.preventDefault();
+        btnTouchKick.classList.remove('active');
+      };
+      btnTouchKick.addEventListener('pointerdown', kickPress);
+      btnTouchKick.addEventListener('pointerup', kickRelease);
+      btnTouchKick.addEventListener('pointercancel', kickRelease);
+      btnTouchKick.addEventListener('touchstart', kickPress, { passive: false });
+      btnTouchKick.addEventListener('touchend', kickRelease, { passive: false });
+    }
 
     // Canvas Tools
     btnShowAnchor.addEventListener('click', () => {

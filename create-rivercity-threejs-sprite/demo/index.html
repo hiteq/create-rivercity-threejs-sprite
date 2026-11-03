@@ -2,58 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>River City Three.js Sprite Workshop | Interactive Inspector & 2.5D Runtime</title>
   <link rel="stylesheet" href="demo.css">
 </head>
 <body>
-  <!-- Header -->
-  <header class="app-header">
-    <div class="brand-section">
-      <div class="logo-badge">NES 60Hz</div>
-      <h1 class="brand-title">River City <span>Three.js Sprite</span> Workshop</h1>
-    </div>
-
-    <div class="header-badges">
-      <div class="character-selector-wrap">
-        <label for="char-select" class="selector-label">CHARACTER:</label>
-        <select id="char-select" class="character-select">
-          <option value="expanded" selected>Alex / Kunio (Nekketsu High • White Gakuran)</option>
-          <option value="ryan">Ryan / Riki (Hanazono High • Royal Blue Gakuran)</option>
-          <option value="gouda">Ivan / Tsuyoshi Gōda (Hōryō High • Straight Bangs • Jade Green)</option>
-          <option value="ryuichi">Randy / Ryūichi Hattori (Reihō Double Dragon • Center-Parted • Crimson Red)</option>
-          <option value="yamada">Slick / Taiki Yamada (Meian High Mastermind • Scheming Eyes • Deep Purple)</option>
-          <option value="godai">Tex / Susumu Godai (Tanibana High • Spiky Flattop • Dark Navy)</option>
-          <option value="sawaguchi">Rocko / Yasuo Sawaguchi (Hakutaka Industrial • Mullet Hair • Salmon Pink)</option>
-          <option value="basic">Alex / Kunio (NES Authentic 4-Frame Baseline)</option>
-        </select>
+  <!-- App Header -->
+  <header class="app-header" role="banner">
+    <div class="header-inner">
+      <div class="brand-section">
+        <div class="logo-badge" aria-label="System timing specification">NES 60Hz</div>
+        <h1 class="brand-title">River City <span>Three.js Sprite</span> Workshop</h1>
       </div>
 
-      <div class="status-badge">
-        <div class="status-dot"></div>
-        <span>RUNTIME DUAL-SYNC ACTIVE</span>
+      <div class="header-badges">
+        <div class="character-selector-wrap">
+          <label for="char-select" class="selector-label">Character:</label>
+          <select id="char-select" class="character-select" aria-label="Select Character Preset">
+            <option value="expanded" selected>Alex / Kunio (Nekketsu High • White Gakuran)</option>
+            <option value="ryan">Ryan / Riki (Hanazono High • Royal Blue Gakuran)</option>
+            <option value="gouda">Ivan / Tsuyoshi Gōda (Hōryō High • Straight Bangs • Jade Green)</option>
+            <option value="ryuichi">Randy / Ryūichi Hattori (Reihō Double Dragon • Center-Parted • Crimson Red)</option>
+            <option value="yamada">Slick / Taiki Yamada (Meian High Mastermind • Scheming Eyes • Deep Purple)</option>
+            <option value="godai">Tex / Susumu Godai (Tanibana High • Spiky Flattop • Dark Navy)</option>
+            <option value="sawaguchi">Rocko / Yasuo Sawaguchi (Hakutaka Industrial • Mullet Hair • Salmon Pink)</option>
+            <option value="basic">Alex / Kunio (NES Authentic 4-Frame Baseline)</option>
+          </select>
+        </div>
+
+        <div class="status-badge" aria-label="Runtime status">
+          <div class="status-dot" aria-hidden="true"></div>
+          <span>DUAL-SYNC ACTIVE</span>
+        </div>
       </div>
     </div>
   </header>
 
+  <!-- Character Roster Quick Switcher Bar -->
+  <section class="roster-section" aria-label="Character Quick Roster">
+    <div class="roster-inner">
+      <span class="roster-label">Roster:</span>
+      <div class="character-chips-container" id="roster-chips" role="tablist" aria-label="Character presets">
+        <button type="button" class="char-chip active" data-preset="expanded" role="tab" aria-selected="true">
+          <span class="char-chip-dot" style="background: #f0f6fc;"></span>
+          <span class="char-chip-name">Alex / Kunio</span>
+          <span class="char-chip-school">Nekketsu</span>
+        </button>
+        <button type="button" class="char-chip" data-preset="ryan" role="tab" aria-selected="false">
+          <span class="char-chip-dot" style="background: #3b82f6;"></span>
+          <span class="char-chip-name">Ryan / Riki</span>
+          <span class="char-chip-school">Hanazono</span>
+        </button>
+        <button type="button" class="char-chip" data-preset="gouda" role="tab" aria-selected="false">
+          <span class="char-chip-dot" style="background: #10b981;"></span>
+          <span class="char-chip-name">Ivan / Gōda</span>
+          <span class="char-chip-school">Hōryō</span>
+        </button>
+        <button type="button" class="char-chip" data-preset="ryuichi" role="tab" aria-selected="false">
+          <span class="char-chip-dot" style="background: #ef4444;"></span>
+          <span class="char-chip-name">Randy / Ryūichi</span>
+          <span class="char-chip-school">Reihō</span>
+        </button>
+        <button type="button" class="char-chip" data-preset="yamada" role="tab" aria-selected="false">
+          <span class="char-chip-dot" style="background: #8b5cf6;"></span>
+          <span class="char-chip-name">Slick / Yamada</span>
+          <span class="char-chip-school">Meian</span>
+        </button>
+        <button type="button" class="char-chip" data-preset="godai" role="tab" aria-selected="false">
+          <span class="char-chip-dot" style="background: #1e3a8a;"></span>
+          <span class="char-chip-name">Tex / Godai</span>
+          <span class="char-chip-school">Tanibana</span>
+        </button>
+        <button type="button" class="char-chip" data-preset="sawaguchi" role="tab" aria-selected="false">
+          <span class="char-chip-dot" style="background: #f43f5e;"></span>
+          <span class="char-chip-name">Rocko / Sawaguchi</span>
+          <span class="char-chip-school">Hakutaka</span>
+        </button>
+        <button type="button" class="char-chip" data-preset="basic" role="tab" aria-selected="false">
+          <span class="char-chip-dot" style="background: #94a3b8;"></span>
+          <span class="char-chip-name">Kunio Core</span>
+          <span class="char-chip-school">4-Frame</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
   <!-- Main Work Area -->
-  <main class="main-layout">
-    <!-- Left Column: Dual Viewport & Controls -->
-    <section class="viewport-column">
+  <main class="main-layout" role="main">
+    <!-- Left Column: Primary Viewports & Playback -->
+    <section class="viewport-column" aria-label="Interactive Viewport and Controls">
       <div class="viewports-wrapper">
+        <!-- Viewport Controls & Segmented Tabs -->
         <div class="viewport-tab-header">
-          <div class="viewport-tabs">
-            <button class="tab-btn active" id="tab-three" data-target="three-view">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-              Three.js 2.5D Scene
+          <div class="viewport-tabs" role="tablist" aria-label="Preview Viewport Mode">
+            <button class="tab-btn active" id="tab-three" data-target="three-view" role="tab" aria-selected="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              <span class="tab-label-full">Three.js 2.5D Scene</span>
+              <span class="tab-label-short">3D Scene</span>
             </button>
-            <button class="tab-btn" id="tab-canvas" data-target="canvas-view">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-              2D Pixel Canvas
+            <button class="tab-btn" id="tab-canvas" data-target="canvas-view" role="tab" aria-selected="false">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <span class="tab-label-full">2D Pixel Canvas</span>
+              <span class="tab-label-short">2D Canvas</span>
             </button>
-            <button class="tab-btn" id="tab-split" data-target="split-view">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg>
-              Dual Split View
+            <button class="tab-btn" id="tab-split" data-target="split-view" role="tab" aria-selected="false">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+              <span class="tab-label-full">Dual Split View</span>
+              <span class="tab-label-short">Split View</span>
             </button>
           </div>
 
@@ -62,8 +117,9 @@
               <button class="tool-toggle-btn active" id="btn-cam-25d" title="2.5D Angled Belt-Scroll View">2.5D View</button>
               <button class="tool-toggle-btn" id="btn-cam-front" title="Orthogonal Front View">Front</button>
               <button class="tool-toggle-btn" id="btn-cam-iso" title="High Isometric View">Iso</button>
-              <button class="tool-toggle-btn active" id="btn-rival" title="Toggle Rival Depth Brawler">Rival Brawler (Z-Sort)</button>
+              <button class="tool-toggle-btn active" id="btn-rival" title="Toggle Rival Depth Brawler">Rival Brawler</button>
               <button class="tool-toggle-btn active" id="btn-shadows" title="Toggle Ground Disc Shadow">Shadows</button>
+              <button class="tool-toggle-btn active" id="btn-toggle-touch" title="Toggle Mobile On-Screen Touch Controls">Touch Pad</button>
             </div>
             <div id="canvas-tools" class="viewport-tools" style="display: none;">
               <button class="tool-toggle-btn active" id="btn-show-anchor" title="Show Sole Ground Anchor Crosshair">Anchor [ax, ay]</button>
@@ -84,47 +140,62 @@
             <canvas id="pixel-canvas" width="300" height="300"></canvas>
           </div>
 
+          <!-- Mobile Virtual Touch Controller (D-Pad + Action Strikes) -->
+          <div class="touch-controller" id="touch-controller" aria-label="Touch Gamepad Controls">
+            <div class="touch-dpad" role="group" aria-label="Directional Movement Pad">
+              <button type="button" class="touch-btn touch-btn-up" id="touch-up" aria-label="Move Up">▲</button>
+              <button type="button" class="touch-btn touch-btn-left" id="touch-left" aria-label="Move Left">◀</button>
+              <div class="touch-btn touch-btn-center" aria-hidden="true"></div>
+              <button type="button" class="touch-btn touch-btn-right" id="touch-right" aria-label="Move Right">▶</button>
+              <button type="button" class="touch-btn touch-btn-down" id="touch-down" aria-label="Move Down">▼</button>
+            </div>
+            <div class="touch-actions" role="group" aria-label="Touch Combat Actions">
+              <button type="button" class="touch-btn touch-action-strike" id="touch-punch" aria-label="Punch Strike">PUNCH</button>
+              <button type="button" class="touch-btn touch-action-strike" id="touch-kick" aria-label="Kick Strike">KICK</button>
+            </div>
+          </div>
+
           <!-- Overlay Info Pill -->
-          <div class="overlay-info-pill" id="viewport-overlay-info">
+          <div class="overlay-info-pill" id="viewport-overlay-info" aria-hidden="true">
             <span>Filter: <b class="highlight-val">THREE.NearestFilter</b></span>
-            <span>Anchor Math: <b class="highlight-val">Grounded Sole (0, 0, 0)</b></span>
-            <span>Depth Sorting: <b class="highlight-val">Z-Sorted</b></span>
+            <span>Anchor: <b class="highlight-val">Sole (16, 39)</b></span>
+            <span>Sorting: <b class="highlight-val">Z-Sorted</b></span>
           </div>
 
           <!-- Interactive Belt-Scroll Controls Pill -->
-          <div class="overlay-controls-pill">
-            <span>🎮 Belt-Scroll Play: <span class="key-badge">WASD</span> / <span class="key-badge">Arrows</span> move</span>
+          <div class="overlay-controls-pill" aria-hidden="true">
+            <span>Controls: <span class="key-badge">WASD</span> / <span class="key-badge">Arrows</span> move</span>
             <span><span class="key-badge">J</span> Punch</span>
             <span><span class="key-badge">K</span> Kick</span>
             <span><span class="key-badge">H</span> Hurt</span>
           </div>
         </div>
 
-        <!-- Quick Action Trigger Bar -->
+        <!-- Primary Action Selection Bar -->
         <div class="action-controls-bar">
           <div class="belt-hint">
-            <span>Trigger Beat-Em-Up Actions:</span>
+            <span>Combat Actions:</span>
           </div>
-          <div class="belt-btn-group" id="quick-action-buttons">
+          <div class="belt-btn-group" id="quick-action-buttons" role="group" aria-label="Quick Action Buttons">
             <!-- Dynamically populated buttons -->
           </div>
         </div>
       </div>
 
       <!-- Playback & Scrubber Deck -->
-      <div class="playback-card">
+      <div class="playback-card" aria-label="Animation Timeline and Playback Controls">
         <div class="playback-controls-row">
           <div class="transport-buttons">
-            <button class="btn-ctrl btn-primary" id="btn-play-pause">
-              <span id="play-pause-icon">⏸</span>
+            <button class="btn-ctrl btn-primary" id="btn-play-pause" aria-label="Play or Pause">
+              <span id="play-pause-icon" aria-hidden="true">⏸</span>
               <span id="play-pause-text">Pause</span>
             </button>
-            <button class="btn-ctrl" id="btn-step-prev" title="Step Frame Backward">⏮ Step -1</button>
-            <button class="btn-ctrl" id="btn-step-next" title="Step Frame Forward">Step +1 ⏭</button>
-            <button class="btn-ctrl" id="btn-reset" title="Reset Timeline to 0ms">↺ Reset</button>
+            <button class="btn-ctrl" id="btn-step-prev" title="Step Frame Backward" aria-label="Step Frame Backward">⏮ -1 Step</button>
+            <button class="btn-ctrl" id="btn-step-next" title="Step Frame Forward" aria-label="Step Frame Forward">+1 Step ⏭</button>
+            <button class="btn-ctrl" id="btn-reset" title="Reset Timeline to 0ms" aria-label="Reset Timeline">↺ Reset</button>
           </div>
 
-          <div class="speed-buttons">
+          <div class="speed-buttons" role="group" aria-label="Playback Speed">
             <button class="btn-speed" data-speed="0.25">0.25x</button>
             <button class="btn-speed" data-speed="0.5">0.5x</button>
             <button class="btn-speed active" data-speed="1.0">1.0x</button>
@@ -132,33 +203,34 @@
           </div>
 
           <div class="facing-toggle">
-            <span class="selector-label">FACING:</span>
-            <button class="btn-ctrl" id="btn-toggle-facing">
+            <span class="selector-label">Facing:</span>
+            <button class="btn-ctrl" id="btn-toggle-facing" aria-label="Toggle Facing Direction">
               <span id="facing-label">Right ➔</span>
             </button>
           </div>
 
-          <div class="event-flasher" id="event-badge">
+          <div class="event-flasher" id="event-badge" aria-live="polite">
             Events: None
           </div>
         </div>
 
         <div class="scrubber-row">
-          <input type="range" id="timeline-scrubber" class="scrubber-track" min="0" max="1000" value="0" step="1">
-          <div class="timecode-label" id="timecode-display">0ms / 0ms • 0.0 ticks</div>
+          <label for="timeline-scrubber" class="selector-label" style="display:none;">Timeline Scrubber</label>
+          <input type="range" id="timeline-scrubber" class="scrubber-track" min="0" max="1000" value="0" step="1" aria-label="Animation Timeline Scrubber">
+          <div class="timecode-label" id="timecode-display" aria-live="off">0ms / 0ms • 0.0 ticks</div>
         </div>
       </div>
     </section>
 
     <!-- Right Column: Animation Library & Sheet Inspector -->
-    <aside class="sidebar-column">
+    <aside class="sidebar-column" aria-label="Sprite Inspector and Character Data">
       <!-- Animation Library Card -->
       <div class="side-card">
         <div class="card-title">
           <span>Animation Sequences</span>
           <span class="card-title-pill" id="anim-count-pill">0 Actions</span>
         </div>
-        <div class="anim-grid" id="anim-list">
+        <div class="anim-grid" id="anim-list" role="tablist" aria-label="All Animation Sequences">
           <!-- Dynamically populated animation cards -->
         </div>
       </div>
@@ -170,9 +242,9 @@
           <span class="card-title-pill" id="sheet-dim-pill">320x40 px</span>
         </div>
         <div class="atlas-container">
-          <canvas id="atlas-canvas" width="320" height="40"></canvas>
+          <canvas id="atlas-canvas" width="320" height="40" aria-label="Sprite Sheet Atlas Canvas"></canvas>
         </div>
-        <table class="meta-table" id="frame-details-table">
+        <table class="meta-table" id="frame-details-table" aria-label="Active Frame Metrics">
           <tr>
             <td>Active Frame ID</td>
             <td id="detail-frame-id" class="highlight-val">-</td>
@@ -199,10 +271,10 @@
       <!-- Character Profile & Face Attribution Card -->
       <div class="side-card">
         <div class="card-title">
-          <span>Character Face & School Identity</span>
+          <span>Character & Uniform Identity</span>
           <span class="tier-badge tier-verified" id="char-tier-badge">100% NES SOURCE</span>
         </div>
-        <table class="meta-table">
+        <table class="meta-table" aria-label="Character Profile">
           <tr>
             <td>Character</td>
             <td id="char-bio-name"><b>Alex / Kunio</b></td>
@@ -229,7 +301,7 @@
           </tr>
           <tr>
             <td>Head Pixel Parity</td>
-            <td><b style="color: var(--accent-green);">100.0000% (0 mismatches)</b></td>
+            <td><b>100.0000% (0 mismatches)</b></td>
           </tr>
           <tr>
             <td>Ground Anchor</td>
@@ -244,7 +316,7 @@
           <span>Source & Provenance Truth</span>
           <span class="tier-badge tier-verified">VERIFIED NES CHR</span>
         </div>
-        <table class="meta-table">
+        <table class="meta-table" aria-label="Data Provenance">
           <tr>
             <td>Source ROM Data</td>
             <td><span class="tier-badge tier-verified">NES Ricoh 2C02 PPU Tiles</span></td>
@@ -271,7 +343,7 @@
   </main>
 
   <!-- Bottom Integration & Documentation Guide -->
-  <section class="info-section">
+  <section class="info-section" aria-label="Developer Integration Guide">
     <div class="doc-grid">
       <!-- Quick Startup Instructions -->
       <div class="doc-card">
@@ -285,9 +357,9 @@
           # Open in your browser:<br>
           http://127.0.0.1:8080/</code>
         </div>
-        <p>To run the 32 automated unit tests verifying the validator, runtime clock, canvas player, and Three.js adapter:</p>
+        <p>Run automated unit tests verifying the validator, runtime clock, canvas player, and Three.js adapter:</p>
         <div class="doc-code-block">
-          <code>cd create-rivercity-threejs-sprite/assets && npm test</code>
+          <code>npm test</code>
         </div>
       </div>
 
@@ -317,7 +389,7 @@
       <div class="doc-card">
         <h3>📋 Provenance & Accuracy Tiers</h3>
         <p>Strict distinction must always be maintained between:</p>
-        <ul style="padding-left: 18px; color: #a0aec0; margin-top: 4px; display: flex; flex-direction: column; gap: 4px;">
+        <ul style="padding-left: 18px; color: var(--text-secondary); margin-top: 4px; display: flex; flex-direction: column; gap: 4px;">
           <li><span class="tier-badge tier-verified">Verified Source Data</span>: Extracted from ROM CHR dumps or emulator frame-advance logs (FCEUX, Mesen).</li>
           <li><span class="tier-badge tier-estimated">Reconstructed / Estimated Data</span>: Ripped sheets or fan-assembled animations with estimated 60Hz tick durations.</li>
           <li><span class="tier-badge tier-original">Original Artwork</span>: Newly authored characters adhering to Kunio-kun visual grammar and palette constraints (CC0).</li>
@@ -327,8 +399,8 @@
   </section>
 
   <!-- Footer -->
-  <footer class="app-footer">
-    create-rivercity-threejs-sprite • Visual Parity Verification & 2.5D Belt-Scroll Runtime • Inspired by 3d.internet.dev
+  <footer class="app-footer" role="contentinfo">
+    create-rivercity-threejs-sprite • Visual Parity Verification & 2.5D Belt-Scroll Runtime • Authentic NES Graphics
   </footer>
 
   <!-- Scripts -->

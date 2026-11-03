@@ -13,8 +13,9 @@ An interactive, responsive dual 2D/3D demonstration and inspection workbench for
 - **2.5D Belt-Scroll Depth Sorting & Rival Brawler**:
   - Includes a secondary brawler positioned deeper on the $Z$-axis facing left.
   - As the player moves around in 2.5D space, depth sorting cleanly manages layering (player behind rival when $Z < Z_{\text{rival}}$, in front when $Z > Z_{\text{rival}}$) with zero transparency glitches (`alphaTest: 0.1` and `depthWrite: true`).
-- **Interactive Keyboard & Touch Play**:
-  - Move around using <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or <kbd>Arrow Keys</kbd> (automatic walk animation and direction flipping).
+- **Interactive Keyboard & Mobile Touch Play**:
+  - Virtual On-Screen Touch Gamepad: D-Pad (<kbd>▲</kbd><kbd>◀</kbd><kbd>▼</kbd><kbd>▶</kbd>) for belt-scroll traversal and direct combat strike buttons (<kbd>PUNCH</kbd>, <kbd>KICK</kbd>) with 44px touch targets.
+  - Desktop Keyboard controls: Move around using <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or <kbd>Arrow Keys</kbd> (automatic walk animation and direction flipping).
   - Press <kbd>J</kbd> or click **PUNCH** to trigger straight punch.
   - Press <kbd>K</kbd> or click **KICK** to trigger front kick.
   - Press <kbd>H</kbd> or click **HURT** to trigger hit shock recoil with iconic $O\_O$ face.
