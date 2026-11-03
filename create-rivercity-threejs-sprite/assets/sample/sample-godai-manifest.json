@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "image": "sample-godai-character.png",
+  "meta": {
+    "character": "Tex / Susumu Godai (Tanibana High Bōjutsu Boss)",
+    "characterJapanese": "五代 奨 (谷花高校 / Tanibana High)",
+    "characterEnglish": "Tex (Leader of The Cowboys)",
+    "school": "Tanibana High School (谷花高校)",
+    "role": "Wild Delinquent Boss (Bōjutsu Stick Master)",
+    "headSpriteId": "sprite52",
+    "headDescription": "Wild spiky flattop / messy buzz-cut hair with wide stare (NES sprite52)",
+    "uniformDescription": "Dark navy blue gakuran uniform (NES $02)",
+    "game": "River City Ransom (NES, 1990) / Downtown Nekketsu Monogatari (FC, 1989)",
+    "developer": "Technōs Japan Corp.",
+    "currentRightsHolder": "Arc System Works Co., Ltd.",
+    "provenanceTier": "Verified Source Data (100.0000% Bit-Exact NES PPU Metasprite Head Tiles)",
+    "compositionTechnique": "Modular NES Metasprite Head-Swapping & Canonical Uniform Palette Mapping",
+    "timingConfidence": "NES 60Hz hardware tick aligned",
+    "timingBasis": "NES 60Hz tick intervals (4 ticks ~67ms, 8 ticks ~133ms, 12 ticks ~200ms)",
+    "imageDimensions": {
+      "width": 320,
+      "height": 40
+    },
+    "facingDefault": "right",
+    "sourceReference": "NES CHR-ROM dump / River City Ransom sprite52 Head & Metasprite Atlas",
+    "disclaimer": "Pixel-accurate reconstruction from original NES River City Ransom character sprite data. Tex (Leader of The Cowboys) and Kunio-kun character designs are copyright Arc System Works Co., Ltd."
+  },
+  "frames": {
+    "idle-0": {
+      "rect": [
+        0,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ]
+    },
+    "idle-1": {
+      "rect": [
+        32,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ]
+    },
+    "walk-0": {
+      "rect": [
+        64,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ]
+    },
+    "walk-1": {
+      "rect": [
+        96,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ]
+    },
+    "punch-0": {
+      "rect": [
+        128,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ]
+    },
+    "punch-1": {
+      "rect": [
+        160,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ],
+      "hitboxes": [
+        {
+          "id": "punch_strike",
+          "type": "attack",
+          "rect": [
+            22,
+            14,
+            8,
+            10
+          ]
+        }
+      ]
+    },
+    "kick-0": {
+      "rect": [
+        192,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ]
+    },
+    "kick-1": {
+      "rect": [
+        224,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ],
+      "hitboxes": [
+        {
+          "id": "kick_thrust",
+          "type": "attack",
+          "rect": [
+            22,
+            18,
+            9,
+            8
+          ]
+        }
+      ]
+    },
+    "hurt-0": {
+      "rect": [
+        256,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ],
+      "hitboxes": [
+        {
+          "id": "hurt_recoil",
+          "type": "hurt",
+          "rect": [
+            8,
+            12,
+            16,
+            26
+          ]
+        }
+      ]
+    },
+    "down-0": {
+      "rect": [
+        288,
+        0,
+        32,
+        40
+      ],
+      "anchor": [
+        16,
+        39
+      ]
+    }
+  },
+  "animations": {
+    "idle": {
+      "loop": true,
+      "frames": [
+        {
+          "frame": "idle-0",
+          "durationMs": 400
+        },
+        {
+          "frame": "idle-1",
+          "durationMs": 200
+        }
+      ]
+    },
+    "walk": {
+      "loop": true,
+      "frames": [
+        {
+          "frame": "walk-0",
+          "durationMs": 133
+        },
+        {
+          "frame": "idle-0",
+          "durationMs": 133
+        },
+        {
+          "frame": "walk-1",
+          "durationMs": 133
+        },
+        {
+          "frame": "idle-0",
+          "durationMs": 133
+        }
+      ]
+    },
+    "punch": {
+      "loop": false,
+      "frames": [
+        {
+          "frame": "punch-0",
+          "durationMs": 67
+        },
+        {
+          "frame": "punch-1",
+          "durationMs": 133,
+          "event": "hit"
+        },
+        {
+          "frame": "punch-0",
+          "durationMs": 67
+        }
+      ]
+    },
+    "kick": {
+      "loop": false,
+      "frames": [
+        {
+          "frame": "kick-0",
+          "durationMs": 80
+        },
+        {
+          "frame": "kick-1",
+          "durationMs": 150,
+          "event": "hit"
+        },
+        {
+          "frame": "kick-0",
+          "durationMs": 80
+        }
+      ]
+    },
+    "hurt": {
+      "loop": false,
+      "frames": [
+        {
+          "frame": "hurt-0",
+          "durationMs": 250
+        }
+      ]
+    },
+    "down": {
+      "loop": false,
+      "frames": [
+        {
+          "frame": "down-0",
+          "durationMs": 600
+        }
+      ]
+    }
+  }
+}

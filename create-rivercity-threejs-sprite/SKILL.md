@@ -54,6 +54,18 @@ Before writing runtime code, audit the source material:
    - If frame order is uncertain, cross-reference against emulator frame-advance recordings.
    - Document verified ticks (e.g. 8 ticks = 133.3ms at 60Hz) vs estimated durations.
 
+### Character Diversity & Authentic NES Metasprite Composition
+
+Technōs Japan achieved rich character diversity in *Downtown Nekketsu Monogatari* within strict Famicom/NES hardware constraints by decoupling head metatiles and body metatiles:
+- **Head Metatiles ($8 \times 16 \times 2$)**: Unique hair contours, bangs, eye shapes, and expressions (e.g., Kunio's pompadour, Gōda's fringe bangs, Ryūichi's center-parted hair, Yamada's scheming eyes, Godai's spiky flattop, Sawaguchi's mullet).
+- **Body Metatiles**: Shared combat and locomotion metasprites (walk strides, straight punch, thrust kick, hurt recoil, flat knockdown).
+- **Canonical School Uniform Palettes**: Palette lookup tables assigned to body tiles (e.g., Nekketsu White, Hanazono Blue, Hōryō Jade Green, Reihō Crimson Red, Meian Violet Purple, Tanibana Navy Blue, Hakutaka Salmon Pink).
+
+When building character suites:
+1. **Verifiable Source Pixels**: Ground all character faces in bit-exact extracted NES PPU tiles (`sprite48`–`53`, `sprite56`–`61`).
+2. **Head/Body Consistency**: Maintain exact head offsets (`headDx`, `headDy`) across walk strides, punch extensions, and kick chambers so that each character feels cohesive across the entire action loop.
+3. **Honesty About Composition vs Hand-Drawn Art**: Clearly document that dynamic combat actions use modular metasprite head-swapping and canonical uniform recoloring (mirroring original NES hardware behavior) rather than falsely promising unique per-character hand-drawn attack poses.
+
 ---
 
 ## Step 2: The Manifest Data Contract

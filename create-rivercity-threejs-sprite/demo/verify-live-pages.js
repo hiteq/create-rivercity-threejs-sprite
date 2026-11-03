@@ -122,14 +122,25 @@ async function runLiveVerification() {
     checks.ryanAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
     checks.ryanAtlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
 
+    // Test switching preset to gouda
+    await evaluate('window.demoApp.loadPreset("gouda")');
+    await new Promise((r) => setTimeout(r, 800));
+    checks.goudaAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
+
+    // Test switching preset to ryuichi
+    await evaluate('window.demoApp.loadPreset("ryuichi")');
+    await new Promise((r) => setTimeout(r, 800));
+    checks.ryuichiAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
+
     // Test switching preset to basic
     await evaluate('window.demoApp.loadPreset("basic")');
     await new Promise((r) => setTimeout(r, 800));
     checks.basicAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
     checks.basicAtlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
 
-    // Test switching back to expanded
-    await evaluate('window.demoApp.loadPreset("expanded")');
+    // Test switching to ryuichi for showcase
+    await evaluate('window.demoApp.loadPreset("ryuichi")');
+    await evaluate('document.getElementById("char-select").value = "ryuichi"');
     await new Promise((r) => setTimeout(r, 800));
     checks.expandedAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
 

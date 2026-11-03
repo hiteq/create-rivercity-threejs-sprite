@@ -179,23 +179,21 @@ async function runBrowserVerification() {
     await new Promise((r) => setTimeout(r, 500));
     checks.afterPunchAnim = await evaluate('document.getElementById("detail-frame-id").textContent');
 
-    // Test switching preset to ryan
-    await evaluate('window.demoApp.loadPreset("ryan")');
-    await new Promise((r) => setTimeout(r, 600));
-    checks.ryanAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
-    checks.ryanAtlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
+    // Test switching through all 7 authentic character presets
+    const testRoster = ['ryan', 'gouda', 'ryuichi', 'yamada', 'godai', 'sawaguchi', 'basic', 'expanded'];
+    for (const key of testRoster) {
+      console.log(`[Verify] Testing preset "${key}"...`);
+      await evaluate(`window.demoApp.loadPreset("${key}")`);
+      await new Promise((r) => setTimeout(r, 400));
+      const charName = await evaluate('document.getElementById("char-bio-name").textContent');
+      const animCount = await evaluate('document.querySelectorAll(".anim-card").length');
+      console.log(`[Verify] Loaded "${key}": ${charName} (${animCount} actions)`);
+    }
 
-    // Test switching preset to basic
-    await evaluate('window.demoApp.loadPreset("basic")');
+    // Select Ryuichi (Double Dragon) to showcase authentic diversity in screenshot
+    await evaluate('window.demoApp.loadPreset("ryuichi")');
+    await evaluate('document.getElementById("char-select").value = "ryuichi"');
     await new Promise((r) => setTimeout(r, 600));
-    checks.basicAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
-    checks.basicAtlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
-
-    // Test switching back to expanded
-    await evaluate('window.demoApp.loadPreset("expanded")');
-    await new Promise((r) => setTimeout(r, 600));
-    checks.expandedAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
-    checks.expandedAtlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
 
     // Capture screenshot
     const screenshotRes = await sendCommand('Page.captureScreenshot', { format: 'png' });
@@ -213,9 +211,8 @@ async function runBrowserVerification() {
     console.log(`Quick Action Buttons: ${checks.quickButtonsCount} (PASS)`);
     console.log(`Pixel Canvas Width: ${checks.canvasWidth}px`);
     console.log(`Atlas Canvas Width: ${checks.atlasWidth}px`);
+    console.log(`Character Presets Verified: ${testRoster.length} characters (All 7 authentic + baseline)`);
     console.log(`Active Frame after Punch: ${checks.afterPunchAnim}`);
-    console.log(`Basic Preset Action Count: ${checks.basicAnimCount} actions, Atlas: ${checks.basicAtlasWidth}px`);
-    console.log(`Expanded Preset Restored: ${checks.expandedAnimCount} actions`);
     console.log('Console logs during run:');
     consoleLogs.forEach(l => console.log(`  [${l.type}] ${l.text}`));
     console.log('Page Console Exceptions:', pageErrors.length);

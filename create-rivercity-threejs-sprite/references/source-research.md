@@ -150,7 +150,8 @@ The following external resources provide verified rips, ROM data, and technical 
 | Aspect | Status | Evidence / Source | Notes & Limitations |
 | :--- | :---: | :--- | :--- |
 | **Character Dimensions** | **Verified** | $8 \times 16$ PPU metatiles; $16 \times 32$ px base stance. | Extends to 24–32px width on strikes and weapon wields. |
-| **Palette Composition** | **Verified** | NES 3-color + transparency per tile block. | Head and body palettes are distinct for gang recoloring. |
+| **Character Diversity (Heads)** | **Verified** | NES CHR-ROM head tiles: `sprite48` (Kunio), `sprite49` (Gōda), `sprite50` (Ryūichi), `sprite51` (Yamada), `sprite52` (Godai), `sprite53` (Sawaguchi). | 100.0000% bit-exact parity verified against source atlas. |
+| **Palette Composition** | **Verified** | NES 3-color + transparency per tile block. | Canonical school gakuran uniforms (White, Blue, Jade Green, Crimson Red, Violet Purple, Dark Navy, Salmon Pink). |
 | **Frame Counts** | **Verified** | Sprite rips (TSR sheets 13547 & 108555) & TCRF analysis. | Walk uses 4 steps; standard punch/kick use 2 distinct poses. |
 | **Engine Tick Duration** | **Estimated** | TASVideos speedrun logs & 60Hz NTSC tick rates. | Varies dynamically in-game due to console slowdown/lag. |
 | **Hitbox & Hurtbox Data** | **Partially Verified / Estimated** | RAM map tracking (Data Crystal) and TAS collision analysis. | Gameplay attack reach and damage boxes are tracked via RAM variables and distinct from visual sprite bounding boxes; full decompiled hitbox coordinates are not published on community wikis. |

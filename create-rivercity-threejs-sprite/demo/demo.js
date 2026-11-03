@@ -18,17 +18,98 @@
     expanded: {
       manifestPath: scriptBase ? new URL('../assets/sample/sample-expanded-manifest.json', scriptBase).href : '../assets/sample/sample-expanded-manifest.json',
       imagePath: scriptBase ? new URL('../assets/sample/sample-expanded-character.png', scriptBase).href : '../assets/sample/sample-expanded-character.png',
-      name: 'Alex / Kunio (NES Authentic 10-Frame Action Suite)'
+      name: 'Alex / Kunio (NES Authentic 10-Frame Action Suite)',
+      characterJapanese: 'くにお (熱血高校 / Nekketsu High)',
+      role: 'Primary Protagonist',
+      school: 'Nekketsu High School (熱血高校)',
+      uniform: 'White jacket, Royal Blue pants',
+      headSprite: 'sprite1 / sprite48',
+      headDesc: 'Iconic Pompadour with classic wide brawler eyes',
+      rivalKey: 'ryan'
     },
     ryan: {
       manifestPath: scriptBase ? new URL('../assets/sample/sample-ryan-manifest.json', scriptBase).href : '../assets/sample/sample-ryan-manifest.json',
       imagePath: scriptBase ? new URL('../assets/sample/sample-ryan-character.png', scriptBase).href : '../assets/sample/sample-ryan-character.png',
-      name: 'Ryan / Riki (NES Authentic Rival / P2 Suite)'
+      name: 'Ryan / Riki (NES Authentic Rival / P2 Suite)',
+      characterJapanese: 'りき (花園高校 / Hanazono High)',
+      role: 'Rival & Co-Protagonist',
+      school: 'Hanazono High School (花園高校)',
+      uniform: 'Full Royal Blue gakuran',
+      headSprite: 'sprite1 / sprite48',
+      headDesc: 'Rival Wavy Pompadour',
+      rivalKey: 'expanded'
+    },
+    gouda: {
+      manifestPath: scriptBase ? new URL('../assets/sample/sample-gouda-manifest.json', scriptBase).href : '../assets/sample/sample-gouda-manifest.json',
+      imagePath: scriptBase ? new URL('../assets/sample/sample-gouda-character.png', scriptBase).href : '../assets/sample/sample-gouda-character.png',
+      name: 'Ivan / Tsuyoshi Gōda (Hōryō High School Boss)',
+      characterJapanese: '剛田 剛 (宝陵高校 / Hōryō High)',
+      role: 'Honorable Gatekeeper Boss',
+      school: 'Hōryō High School (宝陵高校)',
+      uniform: 'Dark Jade Green gakuran (NES $19)',
+      headSprite: 'sprite49',
+      headDesc: 'Straight-cut bangs fringe with stoic calm eyes',
+      rivalKey: 'godai'
+    },
+    ryuichi: {
+      manifestPath: scriptBase ? new URL('../assets/sample/sample-ryuichi-manifest.json', scriptBase).href : '../assets/sample/sample-ryuichi-manifest.json',
+      imagePath: scriptBase ? new URL('../assets/sample/sample-ryuichi-character.png', scriptBase).href : '../assets/sample/sample-ryuichi-character.png',
+      name: 'Randy / Ryūichi Hattori (Reihō Double Dragon)',
+      characterJapanese: '服部 竜一 (冷峰学園 / Reihō Academy)',
+      role: 'Elite Boss / Double Dragon Elder Twin',
+      school: 'Reihō Academy (冷峰学園)',
+      uniform: 'Reihō Crimson Red gakuran (NES $16)',
+      headSprite: 'sprite50',
+      headDesc: 'Center-parted curtain bangs with sharp martial-artist eyes',
+      rivalKey: 'expanded'
+    },
+    yamada: {
+      manifestPath: scriptBase ? new URL('../assets/sample/sample-yamada-manifest.json', scriptBase).href : '../assets/sample/sample-yamada-manifest.json',
+      imagePath: scriptBase ? new URL('../assets/sample/sample-yamada-character.png', scriptBase).href : '../assets/sample/sample-yamada-character.png',
+      name: 'Slick / Taiki Yamada (Meian High Mastermind)',
+      characterJapanese: '山田 大樹 (明暗高校 / Meian High)',
+      role: 'Final Boss / Scheming Mastermind',
+      school: 'Meian High School (明暗高校) / ex-Reihō',
+      uniform: 'Deep Violet / Purple gakuran (NES $14)',
+      headSprite: 'sprite51',
+      headDesc: 'Pompadour with narrow slanted scheming eyes and cynical smirk',
+      rivalKey: 'expanded'
+    },
+    godai: {
+      manifestPath: scriptBase ? new URL('../assets/sample/sample-godai-manifest.json', scriptBase).href : '../assets/sample/sample-godai-manifest.json',
+      imagePath: scriptBase ? new URL('../assets/sample/sample-godai-character.png', scriptBase).href : '../assets/sample/sample-godai-character.png',
+      name: 'Tex / Susumu Godai (Tanibana High Bōjutsu Boss)',
+      characterJapanese: '五代 奨 (谷花高校 / Tanibana High)',
+      role: 'Wild Delinquent Boss / The Cowboys Leader',
+      school: 'Tanibana High School (谷花高校)',
+      uniform: 'Dark Navy Blue gakuran (NES $02)',
+      headSprite: 'sprite52',
+      headDesc: 'Wild spiky flattop / messy buzz-cut hair with wide stare',
+      rivalKey: 'gouda'
+    },
+    sawaguchi: {
+      manifestPath: scriptBase ? new URL('../assets/sample/sample-sawaguchi-manifest.json', scriptBase).href : '../assets/sample/sample-sawaguchi-manifest.json',
+      imagePath: scriptBase ? new URL('../assets/sample/sample-sawaguchi-character.png', scriptBase).href : '../assets/sample/sample-sawaguchi-character.png',
+      name: 'Rocko / Yasuo Sawaguchi (Hakutaka Industrial High)',
+      characterJapanese: '沢口 靖夫 (白鷹工業高校 / Hakutaka)',
+      role: 'Hakutaka Delinquent Brawler',
+      school: 'Hakutaka Industrial High School (白鷹工業高校)',
+      uniform: 'Coral / Salmon Pink gakuran (NES $25)',
+      headSprite: 'sprite53',
+      headDesc: 'Long shaggy mullet hair falling over collar and shoulder',
+      rivalKey: 'ryan'
     },
     basic: {
       manifestPath: scriptBase ? new URL('../assets/sample/sample-manifest.json', scriptBase).href : '../assets/sample/sample-manifest.json',
       imagePath: scriptBase ? new URL('../assets/sample/sample-character.png', scriptBase).href : '../assets/sample/sample-character.png',
-      name: 'Alex / Kunio (NES Authentic Core 4-Frame Baseline)'
+      name: 'Alex / Kunio (NES Authentic Core 4-Frame Baseline)',
+      characterJapanese: 'くにお (熱血高校 / 4프레임 베이스라인)',
+      role: 'Core Baseline',
+      school: 'Nekketsu High School (熱血高校)',
+      uniform: 'White jacket, Royal Blue pants',
+      headSprite: 'sprite1 / sprite48',
+      headDesc: 'Iconic Pompadour (Core 4 frames)',
+      rivalKey: 'ryan'
     }
   };
 
@@ -366,6 +447,19 @@
       updateFrameInspector();
       updateScrubberBounds();
 
+      // Update Character Bio Card
+      const charConfig = PRESETS[presetKey] || PRESETS.expanded;
+      const elBioName = document.getElementById('char-bio-name');
+      const elBioJp = document.getElementById('char-bio-jp');
+      const elBioUniform = document.getElementById('char-bio-uniform');
+      const elBioHead = document.getElementById('char-bio-head');
+      const elBioDesc = document.getElementById('char-bio-desc');
+      if (elBioName) elBioName.innerHTML = `<b>${charConfig.name}</b>`;
+      if (elBioJp) elBioJp.textContent = charConfig.characterJapanese || '-';
+      if (elBioUniform) elBioUniform.textContent = charConfig.uniform || '-';
+      if (elBioHead) elBioHead.innerHTML = `<code class="code-tag">${charConfig.headSprite || '-'}</code>`;
+      if (elBioDesc) elBioDesc.textContent = charConfig.headDesc || '-';
+
       sheetDimPill.textContent = `${activeImage.width}x${activeImage.height} px`;
       animCountPill.textContent = `${Object.keys(activeManifest.animations).length} Actions`;
 
@@ -385,8 +479,9 @@
       return;
     }
 
-    // Determine rival preset (if player is expanded/basic Alex, rival is Ryan; if player is Ryan, rival is Alex)
-    const rivalPresetKey = currentPresetKey === 'ryan' ? 'expanded' : 'ryan';
+    // Determine rival preset (pair naturally based on rivalKey)
+    const activeConf = PRESETS[currentPresetKey] || PRESETS.expanded;
+    const rivalPresetKey = activeConf.rivalKey || (currentPresetKey === 'ryan' ? 'expanded' : 'ryan');
     const rivalPreset = PRESETS[rivalPresetKey] || PRESETS.expanded;
 
     // Load rival manifest and texture

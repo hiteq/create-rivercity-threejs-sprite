@@ -8,12 +8,20 @@ Experience the live interactive workshop and 2.5D runtime directly in your brows
 👉 **[https://hiteq.github.io/create-rivercity-threejs-sprite/](https://hiteq.github.io/create-rivercity-threejs-sprite/)**
 
 ### Interactive Features
-- **Authentic NES Sprite Graphics**: 100.0000% bit-exact pixel parity reconstructed from original *River City Ransom* NES character sprite data (Alex/Kunio & Ryan/Riki).
+- **Authentic NES Sprite Diversity (7 Characters)**: 100.0000% bit-exact pixel parity reconstructed from original *River City Ransom* NES character sprite data (`alex.png` and `alex.json`):
+  1. **Alex / Kunio (くにお)**: Nekketsu High School (White Gakuran jacket & Royal Blue pants, classic Pompadour, `sprite1` & `sprite48`).
+  2. **Ryan / Riki (りき)**: Hanazono High School (Full Royal Blue Gakuran uniform, rival Wavy Pompadour, `sprite1` & `sprite48`).
+  3. **Ivan / Tsuyoshi Gōda (剛田 剛)**: Hōryō High School Boss (Dark Jade Green uniform, straight-cut fringe bangs, `sprite49` & `sprite57`).
+  4. **Randy / Ryūichi Hattori (服部 竜一)**: Reihō Academy Double Dragon (Crimson Red uniform, center-parted curtain bangs, `sprite50` & `sprite58`).
+  5. **Slick / Taiki Yamada (山田 大樹)**: Meian High Mastermind (Deep Violet / Purple uniform, scheming slanted eyes, `sprite51` & `sprite59`).
+  6. **Tex / Susumu Godai (五代 奨)**: Tanibana High Bōjutsu Boss (Dark Navy Blue uniform, spiky flattop haircut, `sprite52` & `sprite61`).
+  7. **Rocko / Yasuo Sawaguchi (沢口 靖夫)**: Hakutaka Industrial High Brawler (Salmon / Coral Pink uniform, shaggy mullet hair, `sprite53` & `sprite60`).
+  8. **Core Baseline**: Alex / Kunio (4-Frame Core Baseline).
 - **Dual Viewport**: Real-time side-by-side synchronized 2D pixel canvas and Three.js 2.5D WebGL scene with orbit camera controls.
 - **Action Suite**: Idle, Walk, Punch, Kick, Hurt, and Knockdown animations with 60Hz NES tick timing accuracy.
-- **Sprite Sheet Atlas Inspector**: Interactive hover inspection of frame bounds, anchor points, and hitboxes.
+- **Head/Body Consistency Discipline**: Adheres strictly to Technōs Japan's modular $8 \times 16$ PPU metasprite composition architecture.
 - **Ground Anchor Discipline**: Sole-anchor alignment `[16, 39]` ensuring zero horizontal or vertical drift when flipping directions or striking.
-- **Three Character Presets**: Alex / Kunio (10-Frame Suite), Ryan / Riki (10-Frame Rival Suite), and Alex / Kunio (4-Frame Baseline).
+- **Sprite Sheet Atlas Inspector**: Interactive hover inspection of frame bounds, anchor points, and hitboxes.
 
 ## 📦 Directory Structure
 
@@ -26,7 +34,7 @@ Experience the live interactive workshop and 2.5D runtime directly in your brows
 
 ## 🧪 Local Verification & Tests
 
-Run the test suite (33 automated tests including 100% pixel parity verification):
+Run the test suite (34 automated tests including 100% pixel parity and character diversity verification):
 ```bash
 npm test
 ```
@@ -36,6 +44,11 @@ Start local demo server:
 npm run demo
 ```
 Navigate to `http://127.0.0.1:8080/`.
+
+Run automated browser verification with headless Chrome:
+```bash
+node create-rivercity-threejs-sprite/demo/verify-demo.js
+```
 
 ## 📜 License
 MIT
