@@ -68,7 +68,10 @@
 ## 4. Hardware Animation Sequences & 60Hz Tick Timings
 
 - **NES Clock Base**: NTSC 60.0988 Hz (~16.64 ms per hardware frame / tick).
-- **Estimated / Approximated Timing Caveat**: Original NES cartridge frame pacing varied dynamically during gameplay due to hardware CPU lag and sprite drop cycling. Durations listed below are estimated standard intervals normalized for smooth modern web runtime playback:
+- **Estimated / Approximated Timing Caveat**: Original NES cartridge frame pacing varied dynamically during gameplay due to hardware CPU lag, routine interrupts, and sprite drop cycling. Durations listed below are estimated standard intervals normalized for authentic, smooth modern web runtime playback:
+- **Idle Stance & Eye-Blink Frequency (Estimated)**:
+  - `idle-0` (eyes open neutral stance, ~2,800ms / ~168 ticks [Estimated]) $\rightarrow$ `idle-1` (blink / breathing frame `sprite48`, ~133ms / ~8 ticks [Estimated]).
+  - *Note on Frequency*: On original NES hardware, characters do not blink frantically; they stand in open-eyed stance for several seconds before executing a brief 8-tick eye-blink. Rapid 200ms-400ms blinking cycles are non-authentic and have been calibrated to this ~2.8s open / ~133ms blink interval.
 - **Walk Cycle** (133ms / 8 ticks per step):
   - `walk-0` (stride 1, 133ms) $\rightarrow$ `idle-0` (passing, 133ms) $\rightarrow$ `walk-1` (stride 2, 133ms) $\rightarrow$ `idle-0` (passing, 133ms).
 - **Punch Strike**:

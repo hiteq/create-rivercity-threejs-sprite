@@ -14,9 +14,9 @@
     "developer": "Technōs Japan Corp.",
     "currentRightsHolder": "Arc System Works Co., Ltd.",
     "provenanceTier": "Verified Source Data (100.0000% Bit-Exact NES PPU Metasprite Head Tiles)",
-    "compositionTechnique": "Modular NES Metasprite Head-Swapping & Canonical Uniform Palette Mapping (estimated composite alignment for zero-drift belts-scroll rendering)",
-    "timingConfidence": "NES 60Hz hardware tick aligned (estimated from 60Hz tick intervals: ~67ms/4 ticks windup, ~133ms-150ms/8-9 ticks impact, ~67ms-80ms recovery; subject to console slowdown)",
-    "timingBasis": "NES 60Hz tick intervals (4 ticks ~67ms, 8 ticks ~133ms, 12 ticks ~200ms) [Estimated/Approximated for belt-scroll pacing]",
+    "compositionTechnique": "Modular NES Metasprite Head-Swapping & Canonical Uniform Palette Mapping (estimated composite alignment for zero-drift belt-scroll rendering)",
+    "timingConfidence": "NES 60Hz hardware tick aligned (estimated from 60Hz tick intervals: idle open ~2800ms / blink ~133ms; attack windup ~67ms, impact ~133ms-150ms, recovery ~67ms-80ms; subject to console slowdown)",
+    "timingBasis": "NES 60Hz tick intervals (idle eyes-open ~168 ticks ~2800ms [Estimated], eyes-blink ~8 ticks ~133ms [Estimated], attack 4-9 ticks ~67ms-150ms) [Estimated/Approximated for authentic belt-scroll pacing]",
     "imageDimensions": {
       "width": 320,
       "height": 40
@@ -189,11 +189,11 @@
       "frames": [
         {
           "frame": "idle-0",
-          "durationMs": 400
+          "durationMs": 2800
         },
         {
           "frame": "idle-1",
-          "durationMs": 200
+          "durationMs": 133
         }
       ]
     },

@@ -192,9 +192,9 @@ test('SpritePlayer: supports single "event" field in addition to "events" array'
 test('SpritePlayer: seek and step', () => {
   const manifest = loadSampleManifest();
   const player = new SpritePlayer(manifest);
-  player.play('idle'); // idle-0: 180ms, idle-1: 180ms
+  player.play('idle'); // idle-0: 2800ms, idle-1: 133ms
 
-  player.seek(200);
+  player.seek(2900);
   assert.equal(player.currentFrameIndex, 1);
   assert.equal(player.getCurrentFrame().frameId, 'idle-1');
 

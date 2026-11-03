@@ -196,7 +196,7 @@ test('ThreeSpriteAdapter: UV mapping for sprite sheet frames', () => {
 
   // Advance to idle-1: rect: [32, 0, 32, 40]
   player.play('idle');
-  adapter.update(200); // idle-0 is 180ms, so 200ms enters idle-1
+  adapter.update(2900); // idle-0 is 2800ms, so 2900ms enters idle-1
 
   const uvs1 = adapter.geometry.attributes.uv.array;
   // uMin: 32/128 = 0.25, uMax: 64/128 = 0.5

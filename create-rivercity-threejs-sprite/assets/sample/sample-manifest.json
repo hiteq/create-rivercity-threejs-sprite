@@ -7,7 +7,8 @@
     "developer": "Technōs Japan Corp.",
     "currentRightsHolder": "Arc System Works Co., Ltd.",
     "provenanceTier": "Verified Source Data (Pixel-Perfect Parity 100.0000%)",
-    "timingConfidence": "NES 60Hz hardware tick aligned",
+    "timingConfidence": "NES 60Hz hardware tick aligned (estimated from 60Hz tick intervals: idle open ~2800ms / blink ~133ms; attack punch ~180ms; subject to console slowdown)",
+    "timingBasis": "NES 60Hz tick intervals (idle eyes-open ~168 ticks ~2800ms [Estimated], eyes-blink ~8 ticks ~133ms [Estimated]) [Estimated/Approximated for authentic belt-scroll pacing]",
     "imageDimensions": {
       "width": 128,
       "height": 40
@@ -45,8 +46,8 @@
     "idle": {
       "loop": true,
       "frames": [
-        { "frame": "idle-0", "durationMs": 180 },
-        { "frame": "idle-1", "durationMs": 180 }
+        { "frame": "idle-0", "durationMs": 2800 },
+        { "frame": "idle-1", "durationMs": 133 }
       ]
     },
     "walk": {
