@@ -1,0 +1,18 @@
+{
+  "name": "create-rivercity-threejs-sprite-root",
+  "version": "1.0.0",
+  "description": "Interactive demonstration and runtime toolkit for River City / Kunio-kun sprites in 2D Canvas and Three.js.",
+  "scripts": {
+    "test": "node --test create-rivercity-threejs-sprite/assets/tests/*.test.js",
+    "demo": "node create-rivercity-threejs-sprite/demo/server.js"
+  },
+  "keywords": [
+    "rivercity",
+    "threejs",
+    "canvas",
+    "beat-em-up",
+    "pixel-art",
+    "sprites"
+  ],
+  "license": "MIT"
+}

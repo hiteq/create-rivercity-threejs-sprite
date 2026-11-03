@@ -1,0 +1,34 @@
+{
+  "skill_name": "create-rivercity-threejs-sprite",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "River City Ransom 원작 캐릭터의 걷기와 펀치를 Three.js에서 재생해줘. 내가 가진 스프라이트 시트를 사용할게.",
+      "expected_output": "Accepts and uses the user-supplied sprite sheet without claiming direct ROM extraction; records asset provenance; defines a versioned JSON manifest with explicit frame rects and sole-level foot anchors; implements both a 2D Canvas inspector and Three.js 2.5D scene with NearestFilter and alphaTest; wires walk loop and one-shot punch with a hit event; clearly documents that animation timings are estimates unless verified with emulator captures.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "열혈 스타일 오리지널 학생 캐릭터의 걷기와 기본 펀치 스프라이트를 도트 그래픽으로 설계하고 Three.js 씬에 넣어줘.",
+      "expected_output": "Creates original pixel art adhering to art-direction.md guidelines: SD 2.0-2.5 head-to-body ratio (32-36px height), 1px solid dark outline, NES 3+1 color palette discipline with uniform/skin layering, and modular facial expressions; drafts a 4-frame walk cycle and 3-frame punch; outputs a validated JSON manifest with rock-solid foot anchors; integrates into Three.js with nearest-neighbor texture filtering and a ground shadow disc; explicitly marks the asset as original art.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "인터넷에서 구한 다운타운 열혈물어 쿠니오 스프라이트 시트가 원작과 타이밍이 맞는지 검증하고, Three.js용 매니페스트로 정리해줘.",
+      "expected_output": "Performs a source provenance audit noting game release, platform, and rip source; evaluates animation timing against NES 60Hz tick baselines (e.g., 8-tick walk steps, 4-tick anticipation, 8-tick impact hold); cleanly separates emulator-verified frames from estimated sequences in the manifest metadata; generates an actionable inspection checklist for visual and timing parity.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "열혈 시리즈 스타일의 2.5D 벨트스크롤 격투 씬을 Three.js로 구현해줘. 두 명의 캐릭터가 서로 마주보고 깊이(Z축)에 따라 올바르게 렌더링되어야 해.",
+      "expected_output": "Sets up a 2.5D coordinate space (X=lateral, Z=depth, Y=vertical elevation); positions sprite planes with foot anchors aligned to world (X, 0, Z); configures an angled or orthographic camera for authentic beat-em-up perspective; implements horizontal flipping pivoting around anchorX without displacement; applies transparent materials with alphaTest and proper depth sorting to prevent transparency glitches; adds an elliptical ground shadow on the floor plane.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "제공된 River City 스프라이트 매니페스트를 검증하고, 펀치할 때 캐릭터가 뒤로 밀리는 현상과 3D에서 흐릿하게 번지는 그래픽을 수정해줘.",
+      "expected_output": "Validates manifest against schema detecting frame bound errors or anchor drift; diagnoses backward movement on punch as bounding-box centering error and corrects all frame anchors to the sole ground contact point; resolves graphic blurring by configuring THREE.NearestFilter for min/mag filters, disabling mipmaps, and setting SRGBColorSpace; confirms zero jitter during idle-punch transitions."
+    }
+  ]
+}

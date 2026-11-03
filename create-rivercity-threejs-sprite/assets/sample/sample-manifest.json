@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "image": "sample-character.png",
+  "meta": {
+    "character": "Sample Brawler (Original Test Asset)",
+    "game": "Original Sample / Non-commercial Test Harness",
+    "author": "Skill Test Harness",
+    "license": "CC0-1.0 / Public Domain for test harness use",
+    "imageDimensions": {
+      "width": 128,
+      "height": 40
+    },
+    "facingDefault": "right",
+    "disclaimer": "This is an original demonstration asset created for test verification. It does NOT contain original Kunio-kun / River City Ransom ROM data and does NOT claim original game accuracy."
+  },
+  "frames": {
+    "idle-0": {
+      "rect": [0, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "idle-1": {
+      "rect": [32, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "walk-0": {
+      "rect": [64, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "punch-0": {
+      "rect": [96, 0, 32, 40],
+      "anchor": [16, 39],
+      "hitboxes": [
+        {
+          "id": "punch_hit",
+          "type": "attack",
+          "rect": [24, 18, 8, 8]
+        }
+      ]
+    }
+  },
+  "animations": {
+    "idle": {
+      "loop": true,
+      "frames": [
+        { "frame": "idle-0", "durationMs": 180 },
+        { "frame": "idle-1", "durationMs": 180 }
+      ]
+    },
+    "walk": {
+      "loop": true,
+      "frames": [
+        { "frame": "idle-0", "durationMs": 150 },
+        { "frame": "walk-0", "durationMs": 150 }
+      ]
+    },
+    "punch": {
+      "loop": false,
+      "frames": [
+        { "frame": "idle-0", "durationMs": 80 },
+        {
+          "frame": "punch-0",
+          "durationMs": 160,
+          "events": [
+            { "name": "hit", "timeMs": 20 }
+          ]
+        }
+      ]
+    }
+  }
+}

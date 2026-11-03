@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>River City Three.js Sprite Workshop | Interactive Inspector & 2.5D Runtime</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="logo-badge">NES 60Hz</div>
+      <h1 class="brand-title">River City <span>Three.js Sprite</span> Workshop</h1>
+    </div>
+
+    <div class="header-badges">
+      <div class="character-selector-wrap">
+        <label for="char-select" class="selector-label">CHARACTER:</label>
+        <select id="char-select" class="character-select">
+          <option value="expanded" selected>Sample Brawler (Expanded 10-Frame Suite)</option>
+          <option value="basic">Sample Character (Core 4-Frame Baseline)</option>
+        </select>
+      </div>
+
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        <span>RUNTIME DUAL-SYNC ACTIVE</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Work Area -->
+  <main class="main-layout">
+    <!-- Left Column: Dual Viewport & Controls -->
+    <section class="viewport-column">
+      <div class="viewports-wrapper">
+        <div class="viewport-tab-header">
+          <div class="viewport-tabs">
+            <button class="tab-btn active" id="tab-three" data-target="three-view">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              Three.js 2.5D Scene
+            </button>
+            <button class="tab-btn" id="tab-canvas" data-target="canvas-view">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              2D Pixel Canvas
+            </button>
+            <button class="tab-btn" id="tab-split" data-target="split-view">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+              Dual Split View
+            </button>
+          </div>
+
+          <div class="viewport-toolbar">
+            <div id="three-tools" class="viewport-tools">
+              <button class="tool-toggle-btn active" id="btn-cam-25d" title="2.5D Angled Belt-Scroll View">2.5D View</button>
+              <button class="tool-toggle-btn" id="btn-cam-front" title="Orthogonal Front View">Front</button>
+              <button class="tool-toggle-btn" id="btn-cam-iso" title="High Isometric View">Iso</button>
+              <button class="tool-toggle-btn active" id="btn-rival" title="Toggle Rival Depth Brawler">Rival Brawler (Z-Sort)</button>
+              <button class="tool-toggle-btn active" id="btn-shadows" title="Toggle Ground Disc Shadow">Shadows</button>
+            </div>
+            <div id="canvas-tools" class="viewport-tools" style="display: none;">
+              <button class="tool-toggle-btn active" id="btn-show-anchor" title="Show Sole Ground Anchor Crosshair">Anchor [ax, ay]</button>
+              <button class="tool-toggle-btn active" id="btn-show-rect" title="Show Frame Bounding Box">Frame Rect</button>
+              <button class="tool-toggle-btn active" id="btn-show-hitboxes" title="Show Action Hitboxes">Hitboxes</button>
+              <button class="tool-toggle-btn" id="btn-scale-toggle">Scale: 6x</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stages Container -->
+        <div class="stage-container" id="stage-area">
+          <!-- Three.js Stage -->
+          <div id="three-stage" class="three-container"></div>
+
+          <!-- Canvas Stage -->
+          <div id="canvas-stage" class="canvas-container checkerboard" style="display: none;">
+            <canvas id="pixel-canvas" width="300" height="300"></canvas>
+          </div>
+
+          <!-- Overlay Info Pill -->
+          <div class="overlay-info-pill" id="viewport-overlay-info">
+            <span>Filter: <b class="highlight-val">THREE.NearestFilter</b></span>
+            <span>Anchor Math: <b class="highlight-val">Grounded Sole (0, 0, 0)</b></span>
+            <span>Depth Sorting: <b class="highlight-val">Z-Sorted</b></span>
+          </div>
+
+          <!-- Interactive Belt-Scroll Controls Pill -->
+          <div class="overlay-controls-pill">
+            <span>🎮 Belt-Scroll Play: <span class="key-badge">WASD</span> / <span class="key-badge">Arrows</span> move</span>
+            <span><span class="key-badge">J</span> Punch</span>
+            <span><span class="key-badge">K</span> Kick</span>
+            <span><span class="key-badge">H</span> Hurt</span>
+          </div>
+        </div>
+
+        <!-- Quick Action Trigger Bar -->
+        <div class="action-controls-bar">
+          <div class="belt-hint">
+            <span>Trigger Beat-Em-Up Actions:</span>
+          </div>
+          <div class="belt-btn-group" id="quick-action-buttons">
+            <!-- Dynamically populated buttons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Playback & Scrubber Deck -->
+      <div class="playback-card">
+        <div class="playback-controls-row">
+          <div class="transport-buttons">
+            <button class="btn-ctrl btn-primary" id="btn-play-pause">
+              <span id="play-pause-icon">⏸</span>
+              <span id="play-pause-text">Pause</span>
+            </button>
+            <button class="btn-ctrl" id="btn-step-prev" title="Step Frame Backward">⏮ Step -1</button>
+            <button class="btn-ctrl" id="btn-step-next" title="Step Frame Forward">Step +1 ⏭</button>
+            <button class="btn-ctrl" id="btn-reset" title="Reset Timeline to 0ms">↺ Reset</button>
+          </div>
+
+          <div class="speed-buttons">
+            <button class="btn-speed" data-speed="0.25">0.25x</button>
+            <button class="btn-speed" data-speed="0.5">0.5x</button>
+            <button class="btn-speed active" data-speed="1.0">1.0x</button>
+            <button class="btn-speed" data-speed="2.0">2.0x</button>
+          </div>
+
+          <div class="facing-toggle">
+            <span class="selector-label">FACING:</span>
+            <button class="btn-ctrl" id="btn-toggle-facing">
+              <span id="facing-label">Right ➔</span>
+            </button>
+          </div>
+
+          <div class="event-flasher" id="event-badge">
+            Events: None
+          </div>
+        </div>
+
+        <div class="scrubber-row">
+          <input type="range" id="timeline-scrubber" class="scrubber-track" min="0" max="1000" value="0" step="1">
+          <div class="timecode-label" id="timecode-display">0ms / 0ms • 0.0 ticks</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Animation Library & Sheet Inspector -->
+    <aside class="sidebar-column">
+      <!-- Animation Library Card -->
+      <div class="side-card">
+        <div class="card-title">
+          <span>Animation Sequences</span>
+          <span class="card-title-pill" id="anim-count-pill">0 Actions</span>
+        </div>
+        <div class="anim-grid" id="anim-list">
+          <!-- Dynamically populated animation cards -->
+        </div>
+      </div>
+
+      <!-- Sprite Sheet & Atlas Inspector -->
+      <div class="side-card">
+        <div class="card-title">
+          <span>Sprite Sheet Atlas</span>
+          <span class="card-title-pill" id="sheet-dim-pill">320x40 px</span>
+        </div>
+        <div class="atlas-container">
+          <canvas id="atlas-canvas" width="320" height="40"></canvas>
+        </div>
+        <table class="meta-table" id="frame-details-table">
+          <tr>
+            <td>Active Frame ID</td>
+            <td id="detail-frame-id" class="highlight-val">-</td>
+          </tr>
+          <tr>
+            <td>Atlas Rect [x, y, w, h]</td>
+            <td id="detail-frame-rect">-</td>
+          </tr>
+          <tr>
+            <td>Sole Anchor [ax, ay]</td>
+            <td id="detail-frame-anchor">-</td>
+          </tr>
+          <tr>
+            <td>Step Duration / Ticks</td>
+            <td id="detail-frame-ticks">-</td>
+          </tr>
+          <tr>
+            <td>Active Hitboxes</td>
+            <td id="detail-frame-hitboxes">None</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Manifest Metadata & Provenance Card -->
+      <div class="side-card">
+        <div class="card-title">
+          <span>Source & Provenance Truth</span>
+          <span class="tier-badge tier-original">ORIGINAL TEST ASSET</span>
+        </div>
+        <table class="meta-table">
+          <tr>
+            <td>Asset Classification</td>
+            <td><span class="tier-badge tier-original">Original Test Art</span></td>
+          </tr>
+          <tr>
+            <td>Timing Confidence</td>
+            <td><span class="tier-badge tier-estimated">Estimated (60Hz Ticks)</span></td>
+          </tr>
+          <tr>
+            <td>Commercial ROM Rip?</td>
+            <td><b style="color: var(--accent-green);">NO (0% Commercial Data)</b></td>
+          </tr>
+          <tr>
+            <td>License</td>
+            <td>CC0-1.0 (Public Domain)</td>
+          </tr>
+          <tr>
+            <td>Flipping Stability</td>
+            <td>Zero Drift (Pivoted at Sole Anchor)</td>
+          </tr>
+        </table>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Bottom Integration & Documentation Guide -->
+  <section class="info-section">
+    <div class="doc-grid">
+      <!-- Quick Startup Instructions -->
+      <div class="doc-card">
+        <h3>🚀 Startup Instructions</h3>
+        <p>Run the local zero-dependency Node server or npm script from terminal:</p>
+        <div class="doc-code-block">
+          <code># From project root:<br>
+          node create-rivercity-threejs-sprite/demo/server.js<br>
+          # Or via npm script:<br>
+          npm run demo<br><br>
+          # Open in your browser:<br>
+          http://127.0.0.1:8080/</code>
+        </div>
+        <p>To run the 32 automated unit tests verifying the validator, runtime clock, canvas player, and Three.js adapter:</p>
+        <div class="doc-code-block">
+          <code>cd create-rivercity-threejs-sprite/assets && npm test</code>
+        </div>
+      </div>
+
+      <!-- Three.js Integration -->
+      <div class="doc-card">
+        <h3>⚡ 5-Line Three.js 2.5D Integration</h3>
+        <p>Integrate any Kunio-kun / River City style character into Three.js with nearest-neighbor crispness and rock-solid ground contact:</p>
+        <div class="doc-code-block">
+          <code>const texture = new THREE.TextureLoader().load('sheet.png');<br>
+          const player = new SpritePlayer(manifest, { initialAnimation: 'idle' });<br>
+          const adapter = new ThreeSpriteAdapter({ THREE, manifest, texture, player });<br>
+          scene.add(adapter.mesh);<br>
+          adapter.mesh.position.set(worldX, 0, worldZ); // Grounded Y=0<br><br>
+          // In your render loop:<br>
+          adapter.update(deltaMs);</code>
+        </div>
+      </div>
+
+      <!-- Ground Anchor Discipline -->
+      <div class="doc-card">
+        <h3>⚖ The Sole Anchor Rule</h3>
+        <p><b>Never use bounding-box centers for sprite alignment!</b> An extended punch fist widens the sprite frame by 8 pixels. Centering on the bounding-box yanks the character body backwards on strike.</p>
+        <p>In this runtime, every frame anchor <code>[ax, ay]</code> is fixed precisely at the ground contact point between the feet <code>(16, 39)</code>. Horizontal mirroring pivots around <code>ax</code>, guaranteeing zero positional drift when changing direction.</p>
+      </div>
+
+      <!-- Provenance Matrix -->
+      <div class="doc-card">
+        <h3>📋 Provenance & Accuracy Tiers</h3>
+        <p>Strict distinction must always be maintained between:</p>
+        <ul style="padding-left: 18px; color: #a0aec0; margin-top: 4px; display: flex; flex-direction: column; gap: 4px;">
+          <li><span class="tier-badge tier-verified">Verified Source Data</span>: Extracted from ROM CHR dumps or emulator frame-advance logs (FCEUX, Mesen).</li>
+          <li><span class="tier-badge tier-estimated">Reconstructed / Estimated Data</span>: Ripped sheets or fan-assembled animations with estimated 60Hz tick durations.</li>
+          <li><span class="tier-badge tier-original">Original Artwork</span>: Newly authored characters adhering to Kunio-kun visual grammar and palette constraints (CC0).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    create-rivercity-threejs-sprite • Visual Parity Verification & 2.5D Belt-Scroll Runtime • Inspired by 3d.internet.dev
+  </footer>
+
+  <!-- Scripts -->
+  <script src="vendor/three.min.js"></script>
+  <script src="vendor/OrbitControls.js"></script>
+  <script src="../assets/validator.js"></script>
+  <script src="../assets/runtime.js"></script>
+  <script src="../assets/canvas-player.js"></script>
+  <script src="../assets/three-adapter.js"></script>
+  <script src="demo.js"></script>
+</body>
+</html>

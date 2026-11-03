@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "image": "sample-expanded-character.png",
+  "meta": {
+    "character": "Sample Brawler (Expanded Action Suite)",
+    "game": "Original Sample / Non-commercial Test Harness",
+    "author": "Skill Test Harness",
+    "license": "CC0-1.0 / Public Domain for test harness use",
+    "provenanceTier": "Original Artwork (Procedural Test Asset)",
+    "timingConfidence": "estimated",
+    "timingBasis": "NES 60Hz tick intervals (4 ticks ~67ms, 8 ticks ~133ms, 12 ticks ~200ms)",
+    "imageDimensions": {
+      "width": 320,
+      "height": 40
+    },
+    "facingDefault": "right",
+    "disclaimer": "This is an original demonstration asset created for test verification. It does NOT contain original Kunio-kun / River City Ransom ROM data and does NOT claim original game accuracy. All frame sequences and timings are synthetic estimates."
+  },
+  "frames": {
+    "idle-0": {
+      "rect": [0, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "idle-1": {
+      "rect": [32, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "walk-0": {
+      "rect": [64, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "walk-1": {
+      "rect": [96, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "punch-0": {
+      "rect": [128, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "punch-1": {
+      "rect": [160, 0, 32, 40],
+      "anchor": [16, 39],
+      "hitboxes": [
+        {
+          "id": "punch_strike",
+          "type": "attack",
+          "rect": [24, 18, 8, 8]
+        }
+      ]
+    },
+    "kick-0": {
+      "rect": [192, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "kick-1": {
+      "rect": [224, 0, 32, 40],
+      "anchor": [16, 39],
+      "hitboxes": [
+        {
+          "id": "kick_strike",
+          "type": "attack",
+          "rect": [22, 23, 10, 8]
+        }
+      ]
+    },
+    "hurt-0": {
+      "rect": [256, 0, 32, 40],
+      "anchor": [16, 39]
+    },
+    "down-0": {
+      "rect": [288, 0, 32, 40],
+      "anchor": [16, 39]
+    }
+  },
+  "animations": {
+    "idle": {
+      "loop": true,
+      "frames": [
+        { "frame": "idle-0", "durationMs": 180 },
+        { "frame": "idle-1", "durationMs": 180 }
+      ]
+    },
+    "walk": {
+      "loop": true,
+      "frames": [
+        { "frame": "walk-0", "durationMs": 133 },
+        { "frame": "idle-0", "durationMs": 133 },
+        { "frame": "walk-1", "durationMs": 133 },
+        { "frame": "idle-0", "durationMs": 133 }
+      ]
+    },
+    "punch": {
+      "loop": false,
+      "frames": [
+        { "frame": "punch-0", "durationMs": 67 },
+        {
+          "frame": "punch-1",
+          "durationMs": 133,
+          "events": [
+            { "name": "hit_strike", "timeMs": 20 }
+          ]
+        },
+        { "frame": "punch-0", "durationMs": 67 }
+      ]
+    },
+    "kick": {
+      "loop": false,
+      "frames": [
+        { "frame": "kick-0", "durationMs": 80 },
+        {
+          "frame": "kick-1",
+          "durationMs": 150,
+          "events": [
+            { "name": "kick_strike", "timeMs": 30 }
+          ]
+        },
+        { "frame": "kick-0", "durationMs": 80 }
+      ]
+    },
+    "hurt": {
+      "loop": false,
+      "frames": [
+        { "frame": "hurt-0", "durationMs": 200 },
+        { "frame": "idle-0", "durationMs": 100 }
+      ]
+    },
+    "down": {
+      "loop": false,
+      "frames": [
+        { "frame": "hurt-0", "durationMs": 100 },
+        { "frame": "down-0", "durationMs": 600 },
+        { "frame": "idle-0", "durationMs": 150 }
+      ]
+    }
+  }
+}

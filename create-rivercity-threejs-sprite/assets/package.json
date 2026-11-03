@@ -1,0 +1,21 @@
+{
+  "name": "create-rivercity-threejs-sprite-assets",
+  "version": "1.0.0",
+  "description": "Reusable sprite runtime, Canvas player, Three.js adapter, and validation kit for River City / Kunio-style sprites.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "demo": "node ../demo/server.js"
+  },
+  "keywords": [
+    "sprite",
+    "animation",
+    "canvas",
+    "threejs",
+    "pixel-art",
+    "beat-em-up",
+    "validator"
+  ],
+  "author": "",
+  "license": "MIT"
+}
