@@ -18,12 +18,17 @@
     expanded: {
       manifestPath: scriptBase ? new URL('../assets/sample/sample-expanded-manifest.json', scriptBase).href : '../assets/sample/sample-expanded-manifest.json',
       imagePath: scriptBase ? new URL('../assets/sample/sample-expanded-character.png', scriptBase).href : '../assets/sample/sample-expanded-character.png',
-      name: 'Sample Brawler (Expanded 10-Frame Action Suite)'
+      name: 'Alex / Kunio (NES Authentic 10-Frame Action Suite)'
+    },
+    ryan: {
+      manifestPath: scriptBase ? new URL('../assets/sample/sample-ryan-manifest.json', scriptBase).href : '../assets/sample/sample-ryan-manifest.json',
+      imagePath: scriptBase ? new URL('../assets/sample/sample-ryan-character.png', scriptBase).href : '../assets/sample/sample-ryan-character.png',
+      name: 'Ryan / Riki (NES Authentic Rival / P2 Suite)'
     },
     basic: {
       manifestPath: scriptBase ? new URL('../assets/sample/sample-manifest.json', scriptBase).href : '../assets/sample/sample-manifest.json',
       imagePath: scriptBase ? new URL('../assets/sample/sample-character.png', scriptBase).href : '../assets/sample/sample-character.png',
-      name: 'Sample Character (Core 4-Frame Baseline)'
+      name: 'Alex / Kunio (NES Authentic Core 4-Frame Baseline)'
     }
   };
 
@@ -380,30 +385,60 @@
       return;
     }
 
-    // Rival brawler uses same manifest, idle anim, facing left
-    rivalPlayer = new (RiverCity.SpritePlayer || SpritePlayer)(activeManifest, {
-      initialAnimation: 'idle',
-      facing: 'left',
-      speed: 1.0,
-      autoPlay: true
-    });
+    // Determine rival preset (if player is expanded/basic Alex, rival is Ryan; if player is Ryan, rival is Alex)
+    const rivalPresetKey = currentPresetKey === 'ryan' ? 'expanded' : 'ryan';
+    const rivalPreset = PRESETS[rivalPresetKey] || PRESETS.expanded;
 
-    rivalAdapter = new (RiverCity.ThreeSpriteAdapter || ThreeSpriteAdapter)({
-      THREE,
-      manifest: activeManifest,
-      texture: activeThreeTexture,
-      player: rivalPlayer,
-      pixelsPerUnit: 0.05
-    });
+    // Load rival manifest and texture
+    fetch(rivalPreset.manifestPath)
+      .then(r => r.json())
+      .then(rivalManifest => {
+        if (!threeScene || !showRival) return;
+        const rivalTex = new THREE.TextureLoader().load(rivalPreset.imagePath);
 
-    // Place rival at X=2.2, Z=-1.0 (deeper along Z)
-    rivalAdapter.mesh.position.set(2.2, 0, -1.0);
-    threeScene.add(rivalAdapter.mesh);
+        rivalPlayer = new (RiverCity.SpritePlayer || SpritePlayer)(rivalManifest, {
+          initialAnimation: 'idle',
+          facing: 'left',
+          speed: 1.0,
+          autoPlay: true
+        });
 
-    if (rivalShadowMesh) {
-      rivalShadowMesh.visible = showShadows;
-      rivalShadowMesh.position.set(2.2, 0.005, -1.0);
-    }
+        rivalAdapter = new (RiverCity.ThreeSpriteAdapter || ThreeSpriteAdapter)({
+          THREE,
+          manifest: rivalManifest,
+          texture: rivalTex,
+          player: rivalPlayer,
+          pixelsPerUnit: 0.05
+        });
+
+        rivalAdapter.mesh.position.set(2.2, 0, -1.0);
+        threeScene.add(rivalAdapter.mesh);
+
+        if (rivalShadowMesh) {
+          rivalShadowMesh.visible = showShadows;
+          rivalShadowMesh.position.set(2.2, 0.005, -1.0);
+        }
+      })
+      .catch(() => {
+        // Fallback to activeManifest if fetch fails
+        rivalPlayer = new (RiverCity.SpritePlayer || SpritePlayer)(activeManifest, {
+          initialAnimation: 'idle',
+          facing: 'left',
+          speed: 1.0,
+          autoPlay: true
+        });
+
+        rivalAdapter = new (RiverCity.ThreeSpriteAdapter || ThreeSpriteAdapter)({
+          THREE,
+          manifest: activeManifest,
+          texture: activeThreeTexture,
+          player: rivalPlayer,
+          pixelsPerUnit: 0.05
+        });
+
+        rivalAdapter.mesh.position.set(2.2, 0, -1.0);
+        threeScene.add(rivalAdapter.mesh);
+      });
   }
 
   /**

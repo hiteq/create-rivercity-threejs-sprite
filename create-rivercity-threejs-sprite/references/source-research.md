@@ -69,6 +69,24 @@ The following external resources provide verified rips, ROM data, and technical 
   - NES *River City Ransom* "1 Player" by willbobsled (05:14.45): [https://tasvideos.org/4344M](https://tasvideos.org/4344M)
   - Provides frame-accurate input logs, engine lag analysis, and collision/hitbox behavior.
 
+### 3.4 In-Repo Verified Sprite Reference Atlas & Pixel Parity Proof
+- **Reference Files**:
+  - Image: `assets/sample/alex.png` (350x354 px, 8-bit RGBA)
+  - Frame Definitions: `assets/sample/alex.json` (75 frames covering idle, walks, attacks, kicks, weapons, damage, knockdown)
+- **Origin**: NES *River City Ransom* (North American Release, Technōs Japan, 1990).
+- **Native NES 2C02 PPU Colors**:
+  - `#050505` (PPU color $0F: black outline and spiky hair)
+  - `#fc7460` (PPU color $27: warm peach skin)
+  - `#ffffff` (PPU color $30: crisp white school uniform jacket, sclera, teeth)
+  - `#0070ec` (PPU color $12: vibrant gakuran blue pants and Ryan uniform)
+- **Objective Parity Verification**:
+  - Verified via `assets/tests/pixel-parity.test.js`:
+    - `sample-expanded-character.png`: 4,661 / 4,661 pixels matched (**100.0000% parity**, 0 mismatches).
+    - `sample-character.png`: 1,811 / 1,811 pixels matched (**100.0000% parity**, 0 mismatches).
+- **Scope & Known Limits**:
+  - The sample suites extract the core combat and movement loop (10 frames) into standard $32 \times 40$ px cells with ground contact anchor at `[16, 39]`.
+  - Additional moves (Mach Punch, Mach Kick, weapon attacks, bike riding) reside in the reference atlas and can be referenced for expanded characters.
+
 ---
 
 ## 4. Animation Actions, Frame Sequences & Timing

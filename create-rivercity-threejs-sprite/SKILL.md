@@ -19,6 +19,13 @@ Always distinguish the three tiers of sprite deliverables:
 2. **Reconstructed / Estimated Data**: User-supplied ripped sheets, fan-assembled sheets, or guessed animation timings where exact source tables are unverified.
 3. **Original Artwork**: Newly authored characters adhering to the Kunio-kun visual grammar, palette limits, and animation timing curves.
 
+### Mandatory Pixel-Level Fidelity & Verification Rule
+- **No Inauthentic Placeholders for Authentic Demands**: When authentic River City Ransom / Kunio-kun graphics are requested, generic geometric shapes, procedural approximations, or stylistically divergent placeholders are strictly prohibited.
+- **Pixel-by-Pixel Source Inspection**: Research credible references (NES CHR-ROM rips, The Spriters Resource, The Cutting Room Floor, TASVideos frame logs). Inspect source images pixel-by-pixel to identify exact metatile compositing, contour outlines, and facial expressions.
+- **Objective Verification Requirement**: **Do NOT claim "pixel-perfect" fidelity unless objectively and programmatically verified** (e.g. running an automated pixel comparison script checking 100.0000% RGBA match of all non-transparent pixels against the source reference atlas).
+- **Exact NES Palette Adherence**: Strictly map colors to the NES Ricoh 2C02 PPU palette ($0F `#050505` black outline/hair, $27 `#fc7460` warm peach skin, $30 `#ffffff` white gakuran/eyes, $12 `#0070ec` gakuran blue).
+- **Full Provenance & Legal Clarity**: State exact game version, developer (Technōs Japan), current rights holder (**Arc System Works Co., Ltd.**), ripper/archive URL, and any remaining animation or coverage gaps.
+
 > **Honesty About Tools & Evidence**: Unlike platforms or engines with cleanly extracted static sequence tables, Famicom/NES *River City Ransom* dynamically composited hardware 8×16 OAM sprites (metasprites) and swapped palettes via 6502 assembly routines. Unless you have verified an exact frame sequence with an emulator frame-advance log, **always label extracted timing as estimated** and clearly document what was tested.
 
 ---

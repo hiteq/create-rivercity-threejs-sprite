@@ -116,6 +116,12 @@ async function runLiveVerification() {
     await new Promise((r) => setTimeout(r, 500));
     checks.punchActive = await evaluate('document.getElementById("detail-frame-id").textContent');
 
+    // Test switching preset to ryan
+    await evaluate('window.demoApp.loadPreset("ryan")');
+    await new Promise((r) => setTimeout(r, 800));
+    checks.ryanAnimCount = await evaluate('document.querySelectorAll(".anim-card").length');
+    checks.ryanAtlasWidth = await evaluate('document.getElementById("atlas-canvas").width');
+
     // Test switching preset to basic
     await evaluate('window.demoApp.loadPreset("basic")');
     await new Promise((r) => setTimeout(r, 800));

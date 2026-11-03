@@ -27,6 +27,12 @@ Rectangles are x, y, width, height in image pixels; anchors are relative to the 
 
 Validate positive integer rectangles within image bounds, existing frame references, positive finite durations, valid anchors, nonempty sequences, and supported fields. Include actionable error messages. Use the same animation clock for 2D and 3D; specify how seek, reset, looping and large time steps affect events. Test boundaries and multiple crossed frames. Use transparent material and nearest texture filtering for a Three.js plane; consider alpha test, depth sorting and camera projection in the actual scene. Keep texture orientation and UV edges correct to avoid neighboring-cell bleeding. Test multiple sprites and camera angles where required.
 
+### Native Pixel Parity Comparison
+When replicating authentic original sprites:
+- Programmatically verify native pixel parity by comparing extracted/generated frame pixels against the source rip reference pixel-for-pixel (100.0000% RGBA match rate for all non-transparent pixels).
+- Reject any geometric placeholders or procedural approximations when authentic character assets are demanded.
+- Never claim pixel-perfect fidelity without an automated verification report certifying zero pixel mismatches.
+
 ## Deliver
 
 Provide manifest, atlas if rights allow, preview, runtime, validator, source notes and instructions. Include what is verified, what is estimated, missing assets, and exact commands used to run and check the project. A single invented sample does not constitute a decoded series catalog.
