@@ -13,7 +13,7 @@
       "height": 40
     },
     "facingDefault": "right",
-    "sourceReference": "NES CHR-ROM dump / River City Ransom Alex Sprite Atlas (sprite1, sprite48, sprite2, sprite14)",
+    "sourceReference": "NES CHR-ROM dump / River City Ransom Alex Sprite Atlas (sprite1, sprite48, sprite2, sprite15)",
     "disclaimer": "Pixel-identical reconstruction from original NES River City Ransom character sprite rip. Alex/Kunio character design is copyright Arc System Works Co., Ltd."
   },
   "frames": {
@@ -36,7 +36,7 @@
         {
           "id": "punch_hit",
           "type": "attack",
-          "rect": [22, 14, 8, 10]
+          "rect": [24, 10, 8, 8]
         }
       ]
     }

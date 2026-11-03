@@ -38,7 +38,7 @@ Experience the live interactive workshop and 2.5D runtime directly in your brows
 
 ## 🧪 Local Verification & Tests
 
-Run the test suite (34 automated tests including 100% pixel parity and character diversity verification):
+Run the test suite (35 automated tests including 100% pixel parity, character diversity, and combat attack parity verification):
 ```bash
 npm test
 ```

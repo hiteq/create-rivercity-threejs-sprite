@@ -115,8 +115,15 @@ async function runLiveVerification() {
 
     // Test interactivity: trigger punch action
     await evaluate('document.querySelector(".action-trigger-btn[data-action=\'punch\']").click()');
-    await new Promise((r) => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 100));
     checks.punchActive = await evaluate('document.getElementById("detail-frame-id").textContent');
+    await new Promise((r) => setTimeout(r, 350));
+
+    // Test interactivity: trigger kick action
+    await evaluate('document.querySelector(".action-trigger-btn[data-action=\'kick\']").click()');
+    await new Promise((r) => setTimeout(r, 120));
+    checks.kickActive = await evaluate('document.getElementById("detail-frame-id").textContent');
+    await new Promise((r) => setTimeout(r, 350));
 
     // Test switching preset to ryan via Roster Chip
     await evaluate('document.querySelector(\'.char-chip[data-preset="ryan"]\').click()');
@@ -209,6 +216,7 @@ async function runLiveVerification() {
     console.log(`Mobile No Overflow: ${checks.mobileNoOverflow ? 'PASS' : 'FAIL'}`);
     console.log(`Mobile Touch Punch: ${checks.mobileTouchPunch ? 'PASS' : 'FAIL'}`);
     console.log(`Interactivity (Punch trigger): ${checks.punchActive}`);
+    console.log(`Interactivity (Kick trigger): ${checks.kickActive}`);
     console.log(`Preset Switching (Basic -> ${checks.basicAnimCount} cards, Atlas: ${checks.basicAtlasWidth}px)`);
     console.log(`Preset Switching (Expanded -> ${checks.expandedAnimCount} cards)`);
     console.log(`Page Console Exceptions: ${pageErrors.length}`);

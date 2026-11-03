@@ -48,17 +48,19 @@
   - `sprite52` (Godai / Tex): 143 out of 143 head pixels match NES source (**100.0000% parity**, 0 mismatches).
   - `sprite53` (Sawaguchi / Rocko): 152 out of 152 head pixels match NES source (**100.0000% parity**, 0 mismatches).
 - **Body Action Base Tiles**:
-  - `sprite2` & `sprite3` (Walk cycle strides), `sprite8` & `sprite14` (Straight punch strike), `sprite11` & `sprite4` (Thrust kick), `sprite16` (Hurt recoil), `sprite44` (Knockdown flat-on-back) are 100% bit-exact extracted from the Technōs ROM atlas.
+  - `sprite2` & `sprite3` (Walk cycle strides), `sprite10` & `sprite15` (Straight punch strike with authentic standing legs and fist extension), `sprite11` & `sprite21` (Kick chamber and authentic horizontal thrust kick), `sprite16` (Hurt recoil), `sprite44` (Knockdown flat-on-back) are 100% bit-exact extracted from the Technōs ROM atlas.
 
 ### 3.2 Action Framing & Head/Body Consistency Discipline
 - **Hardware Architecture**: On the original Famicom/NES hardware, Technōs Japan achieved massive character variety within strict CHR-ROM space constraints by compositing characters dynamically from $8 \times 16$ PPU hardware tiles:
   - 2 top tiles ($8 \times 16$ each): Head, face expression, and hair.
   - 2 bottom tiles ($8 \times 16$ each): Torso, uniform/jacket, hands, and legs/shoes.
-- **Runtime Metasprite Composition**:
+- **Runtime Metasprite Composition & Alignment**:
   - In our runtime sprite sheets, dynamic action frames (Walk, Punch, Kick) composite each character's authentic NES head onto the shared Technōs action bodies and apply canonical school uniform palettes.
-  - We do **not** falsely promise that action frames like hurt recoil or knockdown use unique per-character hand-drawn art; instead, they adhere strictly to the modular metasprite composition technique used by Technōs on original NES hardware.
+  - Head offsets (`headDx`, `headDy`) are calibrated pixel-by-pixel to ensure exact 100% head tile overlay parity across all characters without overwriting active attack limbs (e.g. `punch-1` fist).
+  - We do **not** falsely claim that action frames like hurt recoil or knockdown use unique per-character hand-drawn art; instead, they adhere strictly to the modular metasprite composition technique used by Technōs on original NES hardware.
 - **Ground Anchor Discipline**:
   - Every character cell is strictly formatted to $32 \times 40$ px with the ground anchor fixed at `[16, 39]`.
+  - Standing foot sole contact is preserved at $y = 39$, preventing vertical sliding during combat strikes.
   - Horizontal flipping pivots precisely around $x = 16$, ensuring **0px horizontal or vertical drift** across all 7 characters during strikes, walk strides, and direction reversals.
 
 ---
@@ -66,12 +68,13 @@
 ## 4. Hardware Animation Sequences & 60Hz Tick Timings
 
 - **NES Clock Base**: NTSC 60.0988 Hz (~16.64 ms per hardware frame / tick).
+- **Estimated / Approximated Timing Caveat**: Original NES cartridge frame pacing varied dynamically during gameplay due to hardware CPU lag and sprite drop cycling. Durations listed below are estimated standard intervals normalized for smooth modern web runtime playback:
 - **Walk Cycle** (133ms / 8 ticks per step):
   - `walk-0` (stride 1, 133ms) $\rightarrow$ `idle-0` (passing, 133ms) $\rightarrow$ `walk-1` (stride 2, 133ms) $\rightarrow$ `idle-0` (passing, 133ms).
 - **Punch Strike**:
-  - `punch-0` (windup, 67ms / 4 ticks) $\rightarrow$ `punch-1` (strike with extended fist, 133ms / 8 ticks, hitbox active) $\rightarrow$ `punch-0` (recovery, 67ms / 4 ticks).
+  - `punch-0` (windup chamber `sprite10`, ~67ms / 4 ticks) $\rightarrow$ `punch-1` (strike with extended fist `sprite15`, ~133ms / 8 ticks, hitbox active) $\rightarrow$ `punch-0` (recovery, ~67ms / 4 ticks) $\rightarrow$ smooth return to idle stance.
 - **Kick Strike**:
-  - `kick-0` (chamber, 80ms / 5 ticks) $\rightarrow$ `kick-1` (thrust extension, 150ms / 9 ticks, hitbox active) $\rightarrow$ `kick-0` (recovery, 80ms / 5 ticks).
+  - `kick-0` (chamber `sprite11`, ~80ms / 5 ticks) $\rightarrow$ `kick-1` (thrust extension `sprite21`, ~150ms / 9 ticks, hitbox active) $\rightarrow$ `kick-0` (recovery, ~80ms / 5 ticks) $\rightarrow$ smooth return to idle stance.
 - **Hurt Recoil**:
   - `hurt-0` (250ms / 15 ticks), classic backward recoil with hurtbox.
 - **Knockdown**:

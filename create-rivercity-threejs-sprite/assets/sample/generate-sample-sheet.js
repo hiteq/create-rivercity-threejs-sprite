@@ -157,10 +157,10 @@ const EXPANDED_FRAME_MAP = [
   { id: 'idle-1',  sprite: 'sprite48', xOff: 8, yOff: 8,  headDx: 0, headDy: 0 },  // Eye-blink / breathing stance
   { id: 'walk-0',  sprite: 'sprite2',  xOff: 8, yOff: 8,  headDx: 0, headDy: 0 },  // Walk stride 1
   { id: 'walk-1',  sprite: 'sprite3',  xOff: 8, yOff: 8,  headDx: 0, headDy: 0 },  // Walk stride 2
-  { id: 'punch-0', sprite: 'sprite8',  xOff: 6, yOff: 8,  headDx: 4, headDy: 0 },  // Punch windup
-  { id: 'punch-1', sprite: 'sprite14', xOff: 5, yOff: 9,  headDx: 0, headDy: 0 },  // Punch straight strike
-  { id: 'kick-0',  sprite: 'sprite11', xOff: 4, yOff: 8,  headDx: 6, headDy: 0 },  // Kick chamber
-  { id: 'kick-1',  sprite: 'sprite4',  xOff: 4, yOff: 8,  headDx: 4, headDy: 0 },  // Front thrust kick
+  { id: 'punch-0', sprite: 'sprite10', xOff: 7, yOff: 8,  headDx: 1, headDy: 0 },  // Punch windup (authentic NES sprite10)
+  { id: 'punch-1', sprite: 'sprite15', xOff: 7, yOff: 8,  headDx: 2, headDy: 0 },  // Punch straight strike (authentic NES sprite15)
+  { id: 'kick-0',  sprite: 'sprite11', xOff: 2, yOff: 8,  headDx: 6, headDy: 0 },  // Kick chamber (authentic NES sprite11)
+  { id: 'kick-1',  sprite: 'sprite21', xOff: 1, yOff: 10, headDx: 3, headDy: 0 },  // Front thrust kick (authentic NES sprite21)
   { id: 'hurt-0',  sprite: 'sprite16', xOff: 6, yOff: 10, headDx: 0, headDy: 0 }, // Hurt recoil
   { id: 'down-0',  sprite: 'sprite44', xOff: 0, yOff: 23, headDx: 0, headDy: 0 }  // Knockdown flat on back
 ];
@@ -363,9 +363,10 @@ function getRosterPixel(x, y, charDef) {
   if (charDef.headSprite && (def.id.startsWith('walk') || def.id.startsWith('punch') || def.id.startsWith('kick'))) {
     const hx = def.headDx;
     const hy = def.headDy;
+    const maxHeadW = def.id === 'punch-1' ? 17 : 18;
     const isHeadRegion = (
-      (sy >= hy && sy < hy + 8 && sx >= hx && sx < hx + 18) ||
-      (sy >= hy + 8 && sy < hy + 12 && sx >= hx + 4 && sx < hx + 18)
+      (sy >= hy && sy < hy + 8 && sx >= hx && sx < hx + maxHeadW) ||
+      (sy >= hy + 8 && sy < hy + 12 && sx >= hx + 4 && sx < hx + maxHeadW)
     );
     if (isHeadRegion) {
       const hpx = sx - hx;
@@ -419,14 +420,15 @@ function createManifest(charDef) {
       currentRightsHolder: 'Arc System Works Co., Ltd.',
       provenanceTier: 'Verified Source Data (100.0000% Bit-Exact NES PPU Metasprite Head Tiles)',
       compositionTechnique: 'Modular NES Metasprite Head-Swapping & Canonical Uniform Palette Mapping',
-      timingConfidence: 'NES 60Hz hardware tick aligned',
-      timingBasis: 'NES 60Hz tick intervals (4 ticks ~67ms, 8 ticks ~133ms, 12 ticks ~200ms)',
+      timingConfidence: 'NES 60Hz hardware tick aligned (estimated from 60Hz tick intervals: ~67ms/4 ticks windup, ~133ms-150ms/8-9 ticks impact, ~67ms-80ms recovery; subject to console slowdown)',
+      timingBasis: 'NES 60Hz tick intervals (4 ticks ~67ms, 8 ticks ~133ms, 12 ticks ~200ms) [Estimated/Approximated for belt-scroll pacing]',
+      compositionTechnique: 'Modular NES Metasprite Head-Swapping & Canonical Uniform Palette Mapping (estimated composite alignment for zero-drift belts-scroll rendering)',
       imageDimensions: {
         width: 320,
         height: 40
       },
       facingDefault: 'right',
-      sourceReference: `NES CHR-ROM dump / River City Ransom ${charDef.headSprite} Head & Metasprite Atlas`,
+      sourceReference: `NES CHR-ROM dump / River City Ransom ${charDef.headSprite} Head & Metasprite Atlas (sprite1, sprite48, sprite2, sprite3, sprite10, sprite15, sprite11, sprite21, sprite16, sprite44)`,
       disclaimer: `Pixel-accurate reconstruction from original NES River City Ransom character sprite data. ${charDef.englishName} and Kunio-kun character designs are copyright Arc System Works Co., Ltd.`
     },
     frames: {
@@ -457,7 +459,7 @@ function createManifest(charDef) {
           {
             id: 'punch_strike',
             type: 'attack',
-            rect: [22, 14, 8, 10]
+            rect: [24, 10, 8, 8]
           }
         ]
       },
@@ -472,7 +474,7 @@ function createManifest(charDef) {
           {
             id: 'kick_thrust',
             type: 'attack',
-            rect: [22, 18, 9, 8]
+            rect: [22, 28, 9, 9]
           }
         ]
       },

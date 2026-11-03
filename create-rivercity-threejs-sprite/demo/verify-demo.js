@@ -190,15 +190,24 @@ async function runBrowserVerification() {
     // Test Action Trigger Bar: Punch
     console.log('[Verify] Testing Quick Action Bar: PUNCH...');
     await evaluate('document.querySelector(".action-trigger-btn[data-action=\'punch\']").click()');
+    await new Promise((r) => setTimeout(r, 90));
+    checks.punchFrameActive = await evaluate('window.demoApp.getPlayer().getCurrentFrame().frameId');
+    console.log(`[Verify] Punch active frame during strike: ${checks.punchFrameActive}`);
+    // Wait for one-shot punch to complete and return to idle
     await new Promise((r) => setTimeout(r, 400));
-    checks.punchActive = await evaluate('window.demoApp.getPlayer().currentAnimationName === "punch"');
-    checks.punchBtnActive = await evaluate('document.querySelector(".action-trigger-btn[data-action=\'punch\']").classList.contains("active")');
+    checks.punchReturnedToIdle = await evaluate('window.demoApp.getPlayer().currentAnimationName === "idle"');
+    console.log(`[Verify] Punch smoothly returned to idle: ${checks.punchReturnedToIdle}`);
 
     // Test Action Trigger Bar: Kick
     console.log('[Verify] Testing Quick Action Bar: KICK...');
     await evaluate('document.querySelector(".action-trigger-btn[data-action=\'kick\']").click()');
+    await new Promise((r) => setTimeout(r, 110));
+    checks.kickFrameActive = await evaluate('window.demoApp.getPlayer().getCurrentFrame().frameId');
+    console.log(`[Verify] Kick active frame during thrust: ${checks.kickFrameActive}`);
+    // Wait for one-shot kick to complete and return to idle
     await new Promise((r) => setTimeout(r, 400));
-    checks.kickActive = await evaluate('window.demoApp.getPlayer().currentAnimationName === "kick"');
+    checks.kickReturnedToIdle = await evaluate('window.demoApp.getPlayer().currentAnimationName === "idle"');
+    console.log(`[Verify] Kick smoothly returned to idle: ${checks.kickReturnedToIdle}`);
 
     // Test 2D/3D Viewport Switching
     console.log('[Verify] Testing 2D Canvas Tab Switch...');
@@ -276,19 +285,34 @@ async function runBrowserVerification() {
     checks.touchDpadMoved = posXAfter < posXBefore;
     console.log(`[Verify] Mobile D-Pad Left: X before=${posXBefore.toFixed(3)}, X after=${posXAfter.toFixed(3)}, moved=${checks.touchDpadMoved}`);
 
-    // 3. Test Mobile Touch Combat Action: Punch
+    // 3. Test Mobile Touch Combat Action: Punch & Kick
     console.log('[Verify] Testing Mobile Touch Combat: PUNCH...');
     await evaluate(`
       const touchPunch = document.getElementById("touch-punch");
       touchPunch.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, cancelable: true }));
     `);
-    await new Promise((r) => setTimeout(r, 200));
+    await new Promise((r) => setTimeout(r, 100));
     await evaluate(`
       const touchPunch = document.getElementById("touch-punch");
       touchPunch.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, cancelable: true }));
     `);
     checks.mobileTouchPunchActive = await evaluate('window.demoApp.getPlayer().currentAnimationName === "punch"');
     console.log(`[Verify] Mobile Touch Punch Triggered: ${checks.mobileTouchPunchActive}`);
+    await new Promise((r) => setTimeout(r, 350));
+
+    console.log('[Verify] Testing Mobile Touch Combat: KICK...');
+    await evaluate(`
+      const touchKick = document.getElementById("touch-kick");
+      touchKick.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, cancelable: true }));
+    `);
+    await new Promise((r) => setTimeout(r, 120));
+    await evaluate(`
+      const touchKick = document.getElementById("touch-kick");
+      touchKick.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, cancelable: true }));
+    `);
+    checks.mobileTouchKickActive = await evaluate('window.demoApp.getPlayer().currentAnimationName === "kick" || window.demoApp.getPlayer().getCurrentFrame().frameId === "kick-1"');
+    console.log(`[Verify] Mobile Touch Kick Triggered: ${checks.mobileTouchKickActive}`);
+    await new Promise((r) => setTimeout(r, 350));
 
     // 4. Test Mobile Character Switch via Chip: Yamada
     console.log('[Verify] Testing Mobile Character Switch to Yamada...');
@@ -315,8 +339,13 @@ async function runBrowserVerification() {
     console.log(`Desktop No Overflow: ${checks.desktopNoOverflow ? 'PASS' : 'FAIL'} (${checks.desktopScrollWidth}px <= ${checks.desktopInnerWidth}px)`);
     console.log(`Mobile No Overflow: ${checks.mobileNoOverflow ? 'PASS' : 'FAIL'} (${checks.mobileScrollWidth}px <= 390px)`);
     console.log(`2D/3D Tab Switching: ${checks.canvasTabActive && checks.threeTabActive ? 'PASS' : 'FAIL'}`);
+    console.log(`Combat Punch Frame (sprite15 strike): ${checks.punchFrameActive === 'punch-1' ? 'PASS' : 'FAIL'}`);
+    console.log(`Combat Punch Return to Idle: ${checks.punchReturnedToIdle ? 'PASS' : 'FAIL'}`);
+    console.log(`Combat Kick Frame (sprite21 thrust): ${checks.kickFrameActive === 'kick-1' ? 'PASS' : 'FAIL'}`);
+    console.log(`Combat Kick Return to Idle: ${checks.kickReturnedToIdle ? 'PASS' : 'FAIL'}`);
     console.log(`Mobile Touch D-Pad Movement: ${checks.touchDpadMoved ? 'PASS' : 'FAIL'}`);
     console.log(`Mobile Touch Punch Strike: ${checks.mobileTouchPunchActive ? 'PASS' : 'FAIL'}`);
+    console.log(`Mobile Touch Kick Strike: ${checks.mobileTouchKickActive ? 'PASS' : 'FAIL'}`);
     console.log(`Console Logs Count: ${consoleLogs.length}`);
     console.log(`Page Console Exceptions: ${pageErrors.length}`);
     if (pageErrors.length > 0) {

@@ -420,11 +420,17 @@
       });
 
       player.on('finish', () => {
-        // If one-shot finished and not actively moving, return to idle
-        if (!isMoving && activeManifest.animations['idle']) {
+        // If one-shot action (punch, kick, hurt, down) finishes, smoothly return to idle or walk
+        if (isMoving && activeManifest.animations['walk']) {
+          player.play('walk');
+          updateActiveAnimCard('walk');
+        } else if (activeManifest.animations['idle']) {
           player.play('idle');
           updateActiveAnimCard('idle');
         }
+        isPlaying = true;
+        updateScrubberBounds();
+        updatePlayPauseButton();
       });
 
       // 4. Initialize 2D Canvas Renderer

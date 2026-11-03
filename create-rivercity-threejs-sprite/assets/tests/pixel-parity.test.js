@@ -76,18 +76,18 @@ test('Pixel Parity: 100% objective pixel comparison against authentic River City
   const expImg = decodePngRgba(fs.readFileSync(expPath));
   const baseImg = decodePngRgba(fs.readFileSync(basePath));
 
-  // Expanded 10 frames check
+  // Expanded 10 frames check (authentic NES River City Ransom suite)
   const expFrames = [
-    { sprite: 'sprite1',  xOff: 8, yOff: 8 },
-    { sprite: 'sprite48', xOff: 8, yOff: 8 },
-    { sprite: 'sprite2',  xOff: 8, yOff: 8 },
-    { sprite: 'sprite3',  xOff: 8, yOff: 8 },
-    { sprite: 'sprite8',  xOff: 6, yOff: 8 },
-    { sprite: 'sprite14', xOff: 5, yOff: 9 },
-    { sprite: 'sprite11', xOff: 4, yOff: 8 },
-    { sprite: 'sprite4',  xOff: 4, yOff: 8 },
-    { sprite: 'sprite16', xOff: 6, yOff: 10 },
-    { sprite: 'sprite44', xOff: 0, yOff: 23 }
+    { sprite: 'sprite1',  xOff: 8, yOff: 8 },  // idle-0
+    { sprite: 'sprite48', xOff: 8, yOff: 8 },  // idle-1
+    { sprite: 'sprite2',  xOff: 8, yOff: 8 },  // walk-0
+    { sprite: 'sprite3',  xOff: 8, yOff: 8 },  // walk-1
+    { sprite: 'sprite10', xOff: 7, yOff: 8 },  // punch-0 (authentic NES punch windup)
+    { sprite: 'sprite15', xOff: 7, yOff: 8 },  // punch-1 (authentic NES straight strike)
+    { sprite: 'sprite11', xOff: 2, yOff: 8 },  // kick-0 (authentic NES kick chamber)
+    { sprite: 'sprite21', xOff: 1, yOff: 10 }, // kick-1 (authentic NES front thrust kick)
+    { sprite: 'sprite16', xOff: 6, yOff: 10 }, // hurt-0
+    { sprite: 'sprite44', xOff: 0, yOff: 23 }  // down-0
   ];
 
   let expTotalChecked = 0;
@@ -124,7 +124,7 @@ test('Pixel Parity: 100% objective pixel comparison against authentic River City
 
   assert.equal(expMismatches, 0, `Expected 0 mismatches in sample-expanded-character.png, got ${expMismatches}`);
   assert.equal(expMatches, expTotalChecked);
-  assert.equal(expMatches, 4661, `Expected 4661 verified non-transparent pixels, got ${expMatches}`);
+  assert.equal(expMatches, 4740, `Expected 4740 verified non-transparent pixels, got ${expMatches}`);
 
   // Base 4 frames check
   const baseFrames = [
@@ -168,5 +168,5 @@ test('Pixel Parity: 100% objective pixel comparison against authentic River City
 
   assert.equal(baseMismatches, 0, `Expected 0 mismatches in sample-character.png, got ${baseMismatches}`);
   assert.equal(baseMatches, baseTotalChecked);
-  assert.equal(baseMatches, 1811, `Expected 1811 verified non-transparent pixels, got ${baseMatches}`);
+  assert.equal(baseMatches, 1867, `Expected 1867 verified non-transparent pixels, got ${baseMatches}`);
 });

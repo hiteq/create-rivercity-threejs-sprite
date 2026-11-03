@@ -14,15 +14,15 @@
     "developer": "Technōs Japan Corp.",
     "currentRightsHolder": "Arc System Works Co., Ltd.",
     "provenanceTier": "Verified Source Data (100.0000% Bit-Exact NES PPU Metasprite Head Tiles)",
-    "compositionTechnique": "Modular NES Metasprite Head-Swapping & Canonical Uniform Palette Mapping",
-    "timingConfidence": "NES 60Hz hardware tick aligned",
-    "timingBasis": "NES 60Hz tick intervals (4 ticks ~67ms, 8 ticks ~133ms, 12 ticks ~200ms)",
+    "compositionTechnique": "Modular NES Metasprite Head-Swapping & Canonical Uniform Palette Mapping (estimated composite alignment for zero-drift belts-scroll rendering)",
+    "timingConfidence": "NES 60Hz hardware tick aligned (estimated from 60Hz tick intervals: ~67ms/4 ticks windup, ~133ms-150ms/8-9 ticks impact, ~67ms-80ms recovery; subject to console slowdown)",
+    "timingBasis": "NES 60Hz tick intervals (4 ticks ~67ms, 8 ticks ~133ms, 12 ticks ~200ms) [Estimated/Approximated for belt-scroll pacing]",
     "imageDimensions": {
       "width": 320,
       "height": 40
     },
     "facingDefault": "right",
-    "sourceReference": "NES CHR-ROM dump / River City Ransom sprite53 Head & Metasprite Atlas",
+    "sourceReference": "NES CHR-ROM dump / River City Ransom sprite53 Head & Metasprite Atlas (sprite1, sprite48, sprite2, sprite3, sprite10, sprite15, sprite11, sprite21, sprite16, sprite44)",
     "disclaimer": "Pixel-accurate reconstruction from original NES River City Ransom character sprite data. Rocko (Hakutaka / The Frat Guys Brawler) and Kunio-kun character designs are copyright Arc System Works Co., Ltd."
   },
   "frames": {
@@ -102,10 +102,10 @@
           "id": "punch_strike",
           "type": "attack",
           "rect": [
-            22,
-            14,
+            24,
+            10,
             8,
-            10
+            8
           ]
         }
       ]
@@ -139,9 +139,9 @@
           "type": "attack",
           "rect": [
             22,
-            18,
+            28,
             9,
-            8
+            9
           ]
         }
       ]
