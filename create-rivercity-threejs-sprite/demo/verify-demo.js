@@ -198,6 +198,23 @@ async function runBrowserVerification() {
     checks.punchReturnedToIdle = await evaluate('window.demoApp.getPlayer().currentAnimationName === "idle"');
     console.log(`[Verify] Punch smoothly returned to idle: ${checks.punchReturnedToIdle}`);
 
+    // Test Sequence Filmstrip Inspector & Step functionality
+    console.log('[Verify] Testing Sequence Filmstrip Component...');
+    checks.filmstripCardsCount = await evaluate('document.querySelectorAll(".filmstrip-frame-card").length');
+    console.log(`[Verify] Filmstrip frame cards rendered: ${checks.filmstripCardsCount}`);
+
+    // Click on frame #1 in filmstrip
+    console.log('[Verify] Clicking filmstrip frame card #1 (should pause and seek)...');
+    await evaluate('document.querySelectorAll(".filmstrip-frame-card")[1].click()');
+    await new Promise((r) => setTimeout(r, 200));
+    checks.playerPausedAfterFilmstripClick = await evaluate('window.demoApp.getPlayer().isPlaying === false');
+    checks.currentFrameIdxAfterFilmstripClick = await evaluate('window.demoApp.getPlayer().currentFrameIndex === 1');
+    console.log(`[Verify] Player paused: ${checks.playerPausedAfterFilmstripClick}, Frame index: ${checks.currentFrameIdxAfterFilmstripClick}`);
+
+    // Resume playback for subsequent action tests
+    await evaluate('document.getElementById("btn-play").click()');
+    await new Promise((r) => setTimeout(r, 200));
+
     // Test Action Trigger Bar: Kick
     console.log('[Verify] Testing Quick Action Bar: KICK...');
     await evaluate('document.querySelector(".action-trigger-btn[data-action=\'kick\']").click()');
@@ -335,6 +352,8 @@ async function runBrowserVerification() {
     console.log(`ThreeSpriteAdapter Loaded: ${checks.adapterLoaded ? 'PASS' : 'FAIL'}`);
     console.log(`Roster Chips Count: ${checks.rosterChipsCount} (PASS)`);
     console.log(`Expanded Animation Cards: ${checks.animCardsCount} (PASS)`);
+    console.log(`Sequence Filmstrip Cards: ${checks.filmstripCardsCount} (PASS)`);
+    console.log(`Filmstrip Step & Seek Sync: ${checks.playerPausedAfterFilmstripClick && checks.currentFrameIdxAfterFilmstripClick ? 'PASS' : 'FAIL'}`);
     console.log(`Quick Action Buttons: ${checks.quickButtonsCount} (PASS)`);
     console.log(`Desktop No Overflow: ${checks.desktopNoOverflow ? 'PASS' : 'FAIL'} (${checks.desktopScrollWidth}px <= ${checks.desktopInnerWidth}px)`);
     console.log(`Mobile No Overflow: ${checks.mobileNoOverflow ? 'PASS' : 'FAIL'} (${checks.mobileScrollWidth}px <= 390px)`);

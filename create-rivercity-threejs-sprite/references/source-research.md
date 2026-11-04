@@ -150,7 +150,7 @@ The following external resources provide verified rips, ROM data, and technical 
 | Aspect | Status | Evidence / Source | Notes & Limitations |
 | :--- | :---: | :--- | :--- |
 | **Character Dimensions** | **Verified** | $8 \times 16$ PPU metatiles; $16 \times 32$ px base stance. | Extends to 24–32px width on strikes and weapon wields. |
-| **Character Diversity (Heads)** | **Verified** | NES CHR-ROM head tiles: `sprite48` (Kunio), `sprite49` (Gōda), `sprite50` (Ryūichi), `sprite51` (Yamada), `sprite52` (Godai), `sprite53` (Sawaguchi). | 100.0000% bit-exact parity verified against source atlas. |
+| **Character Diversity (Heads)** | **Verified (Atlas)** | Head tiles: `sprite1`/`sprite48` (Kunio/Alex), `sprite50`/`sprite58` (Ryan/Riki), `sprite49` (Gōda), `sprite51` (Yamada), `sprite52` (Godai), `sprite53` (Sawaguchi). | Verified against bundled reference atlas (The Spriters Resource rip). Ryan has distinct regent pompadour (40px delta vs Alex). Ryūichi uses adapted composite. |
 | **Palette Composition** | **Verified** | NES 3-color + transparency per tile block. | Canonical school gakuran uniforms (White, Blue, Jade Green, Crimson Red, Violet Purple, Dark Navy, Salmon Pink). |
 | **Frame Counts** | **Verified** | Sprite rips (TSR sheets 13547 & 108555) & TCRF analysis. | Walk uses 4 steps; standard punch/kick use 2 distinct poses. |
 | **Engine Tick Duration** | **Estimated** | TASVideos speedrun logs & 60Hz NTSC tick rates. | Varies dynamically in-game due to console slowdown/lag. |

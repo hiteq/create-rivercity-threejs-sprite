@@ -14,15 +14,16 @@ Unlike modern 3D models or linear sprite strips, retro beat-em-up sprites depend
 
 ## The Core Mission & Honesty Principle
 
-Always distinguish the three tiers of sprite deliverables:
-1. **Verified Source Data**: Sprites and animation frame counts verified directly against ROM CHR dumps, emulator frame-advance captures (FCEUX, Mesen), or disassembly documentation.
-2. **Reconstructed / Estimated Data**: User-supplied ripped sheets, fan-assembled sheets, or guessed animation timings where exact source tables are unverified.
-3. **Original Artwork**: Newly authored characters adhering to the Kunio-kun visual grammar, palette limits, and animation timing curves.
+Always distinguish the core tiers of sprite deliverables:
+1. **Sourced Reference Data**: Sprites and animation frame contours verified directly against reference archives (The Spriters Resource NES rip) preserving authentic 8x16 PPU metatiles.
+2. **Adapted Composite Data**: Modular metasprites (such as boss hurt/down frames reusing shared Technōs hit geometry, or adapted hairstyles) re-paletted and composited to match character identities.
+3. **Estimated Timings & Hitboxes**: 60Hz tick intervals and collision boxes calibrated for belt-scroll rhythm; labeled explicitly as estimated unless confirmed by RAM/emulator capture.
+4. **Original Artwork**: Newly authored characters adhering to the Kunio-kun visual grammar, palette limits, and animation timing curves.
 
 ### Mandatory Pixel-Level Fidelity & Verification Rule
 - **No Inauthentic Placeholders for Authentic Demands**: When authentic River City Ransom / Kunio-kun graphics are requested, generic geometric shapes, procedural approximations, or stylistically divergent placeholders are strictly prohibited.
 - **Pixel-by-Pixel Source Inspection**: Research credible references (NES CHR-ROM rips, The Spriters Resource, The Cutting Room Floor, TASVideos frame logs). Inspect source images pixel-by-pixel to identify exact metatile compositing, contour outlines, and facial expressions.
-- **Objective Verification Requirement**: **Do NOT claim "pixel-perfect" fidelity unless objectively and programmatically verified** (e.g. running an automated pixel comparison script checking 100.0000% RGBA match of all non-transparent pixels against the source reference atlas).
+- **Objective Verification Requirement**: **Do NOT claim raw ROM dump extraction or bit-exact gameplay parity without evidence**. Test and report consistency against the bundled reference atlas (e.g. 100% RGBA match for sourced head tiles), verify character differentiation (e.g. Ryan's distinct regent pompadour `sprite50` vs Alex `sprite1`), and classify adapted frames honestly.
 - **Exact NES Palette Adherence**: Strictly map colors to the NES Ricoh 2C02 PPU palette ($0F `#050505` black outline/hair, $27 `#fc7460` warm peach skin, $30 `#ffffff` white gakuran/eyes, $12 `#0070ec` gakuran blue).
 - **Full Provenance & Legal Clarity**: State exact game version, developer (Technōs Japan), current rights holder (**Arc System Works Co., Ltd.**), ripper/archive URL, and any remaining animation or coverage gaps.
 

@@ -6,7 +6,7 @@
     "game": "River City Ransom (NES, 1989) / Downtown Nekketsu Monogatari (FC, 1989)",
     "developer": "Technōs Japan Corp.",
     "currentRightsHolder": "Arc System Works Co., Ltd.",
-    "provenanceTier": "Verified Source Data (Pixel-Perfect Parity 100.0000%)",
+    "provenanceTier": "Sourced Reference Atlas (The Spriters Resource NES Rip)",
     "timingConfidence": "NES 60Hz hardware tick aligned (estimated from 60Hz tick intervals: idle open ~2800ms / blink ~133ms; attack punch ~180ms; subject to console slowdown)",
     "timingBasis": "NES 60Hz tick intervals (idle eyes-open ~168 ticks ~2800ms [Estimated], eyes-blink ~8 ticks ~133ms [Estimated]) [Estimated/Approximated for authentic belt-scroll pacing]",
     "imageDimensions": {
@@ -14,8 +14,8 @@
       "height": 40
     },
     "facingDefault": "right",
-    "sourceReference": "NES CHR-ROM dump / River City Ransom Alex Sprite Atlas (sprite1, sprite48, sprite2, sprite15)",
-    "disclaimer": "Pixel-identical reconstruction from original NES River City Ransom character sprite rip. Alex/Kunio character design is copyright Arc System Works Co., Ltd."
+    "sourceReference": "Third-party NES River City Ransom sprite rip atlas (The Spriters Resource, sprite1, sprite48, sprite2, sprite15)",
+    "disclaimer": "Pixel-aligned reconstruction from community NES River City Ransom sprite rip atlas (The Spriters Resource). Alex/Kunio character design is copyright Arc System Works Co., Ltd."
   },
   "frames": {
     "idle-0": {

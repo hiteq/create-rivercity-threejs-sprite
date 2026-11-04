@@ -59,15 +59,15 @@ function decodePngRgba(buffer) {
   return { width, height, rgba };
 }
 
-test('Pixel Parity: 100% objective pixel comparison against authentic River City Ransom NES source', () => {
+test('Reference Atlas Consistency: Pixel-level verification against bundled reference atlas (The Spriters Resource NES rip)', () => {
   const sampleDir = path.join(__dirname, '../sample');
   const sourcePath = path.join(sampleDir, 'alex.png');
   const sourceJsonPath = path.join(sampleDir, 'alex.json');
   const expPath = path.join(sampleDir, 'sample-expanded-character.png');
   const basePath = path.join(sampleDir, 'sample-character.png');
 
-  assert.equal(fs.existsSync(sourcePath), true, 'Source alex.png exists');
-  assert.equal(fs.existsSync(sourceJsonPath), true, 'Source alex.json exists');
+  assert.equal(fs.existsSync(sourcePath), true, 'Reference atlas alex.png exists');
+  assert.equal(fs.existsSync(sourceJsonPath), true, 'Reference atlas alex.json exists');
   assert.equal(fs.existsSync(expPath), true, 'Generated sample-expanded-character.png exists');
   assert.equal(fs.existsSync(basePath), true, 'Generated sample-character.png exists');
 
@@ -75,6 +75,24 @@ test('Pixel Parity: 100% objective pixel comparison against authentic River City
   const sourceJson = JSON.parse(fs.readFileSync(sourceJsonPath, 'utf8'));
   const expImg = decodePngRgba(fs.readFileSync(expPath));
   const baseImg = decodePngRgba(fs.readFileSync(basePath));
+
+  // Verify independent NES 2C02 hardware palette color fidelity
+  // $0F: #050505 (black outline / hair), $27: #fc7460 (warm peach skin), $30: #ffffff (white jacket), $12: #0070ec (blue pants)
+  const canonicalPalette = [
+    [5, 5, 5, 255],
+    [252, 116, 96, 255],
+    [255, 255, 255, 255],
+    [0, 112, 236, 255]
+  ];
+  const foundColors = new Set();
+  for (let i = 0; i < expImg.rgba.length; i += 4) {
+    if (expImg.rgba[i + 3] > 0) {
+      foundColors.add(`${expImg.rgba[i]},${expImg.rgba[i + 1]},${expImg.rgba[i + 2]},${expImg.rgba[i + 3]}`);
+    }
+  }
+  canonicalPalette.forEach(c => {
+    assert.ok(foundColors.has(c.join(',')), `Expanded suite must contain canonical NES 2C02 color ${c.slice(0, 3).join(',')}`);
+  });
 
   // Expanded 10 frames check (authentic NES River City Ransom suite)
   const expFrames = [

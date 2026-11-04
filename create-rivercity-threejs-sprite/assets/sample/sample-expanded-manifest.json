@@ -8,21 +8,39 @@
     "school": "Nekketsu High School (熱血高校)",
     "role": "Primary Protagonist",
     "headSpriteId": "sprite1",
-    "headDescription": "Iconic high pompadour, classic open/expressive eyes (NES sprite1 & sprite48)",
+    "headDescription": "Iconic high flat pompadour, classic open/expressive eyes (NES sprite1 & sprite48)",
     "uniformDescription": "White gakuran jacket with royal blue pants",
     "game": "River City Ransom (NES, 1990) / Downtown Nekketsu Monogatari (FC, 1989)",
     "developer": "Technōs Japan Corp.",
     "currentRightsHolder": "Arc System Works Co., Ltd.",
-    "provenanceTier": "Verified Source Data (100.0000% Bit-Exact NES PPU Metasprite Head Tiles)",
-    "compositionTechnique": "Modular NES Metasprite Head-Swapping & Canonical Uniform Palette Mapping (estimated composite alignment for zero-drift belt-scroll rendering)",
-    "timingConfidence": "NES 60Hz hardware tick aligned (estimated from 60Hz tick intervals: idle open ~2800ms / blink ~133ms; attack windup ~67ms, impact ~133ms-150ms, recovery ~67ms-80ms; subject to console slowdown)",
+    "provenanceTier": "Sourced Base + Sourced Head (Atlas sprite1/48)",
+    "provenanceDetails": {
+      "tier": "Sourced Base + Sourced Head (Atlas sprite1/48)",
+      "baseAtlas": "Third-party NES River City Ransom sprite rip atlas (The Spriters Resource, 75 frames). Bundled reference, not a direct bitstream dump from original ROM.",
+      "headClassification": "sourced",
+      "frameClassifications": {
+        "idle-0": "sourced_head_stance",
+        "idle-1": "sourced_blink_stance",
+        "walk-0": "sourced_walk_stride",
+        "walk-1": "sourced_walk_stride",
+        "punch-0": "sourced_combat_windup",
+        "punch-1": "sourced_combat_strike",
+        "kick-0": "sourced_combat_chamber",
+        "kick-1": "sourced_combat_thrust",
+        "hurt-0": "sourced_recoil_base",
+        "down-0": "sourced_knockdown_base"
+      },
+      "timingConfidence": "Estimated & normalized for smooth 60fps web playback (~16.6ms per tick). Original NES hardware frame pacing varied dynamically with console CPU lag, routine interrupts, and sprite cycling."
+    },
+    "compositionTechnique": "Modular Technōs Metasprite Head-Swapping & Canonical Uniform Palette Mapping (zero-drift belt-scroll ground anchor [16, 39])",
+    "timingConfidence": "NES 60Hz normalized estimate (idle open ~2800ms / blink ~133ms; attack windup ~67ms, impact ~133ms-150ms, recovery ~67ms-80ms; normalized for web runtime)",
     "timingBasis": "NES 60Hz tick intervals (idle eyes-open ~168 ticks ~2800ms [Estimated], eyes-blink ~8 ticks ~133ms [Estimated], attack 4-9 ticks ~67ms-150ms) [Estimated/Approximated for authentic belt-scroll pacing]",
     "imageDimensions": {
       "width": 320,
       "height": 40
     },
     "facingDefault": "right",
-    "sourceReference": "NES CHR-ROM dump / River City Ransom sprite1 Head & Metasprite Atlas (sprite1, sprite48, sprite2, sprite3, sprite10, sprite15, sprite11, sprite21, sprite16, sprite44)",
+    "sourceReference": "NES River City Ransom reference atlas (sprite1 Head & Technōs action metasprites sprite1, sprite48, sprite2, sprite3, sprite10, sprite15, sprite11, sprite21, sprite16, sprite44)",
     "disclaimer": "Pixel-accurate reconstruction from original NES River City Ransom character sprite data. Alex (River City High) and Kunio-kun character designs are copyright Arc System Works Co., Ltd."
   },
   "frames": {
@@ -36,7 +54,12 @@
       "anchor": [
         16,
         39
-      ]
+      ],
+      "provenance": {
+        "classification": "sourced_head",
+        "originSprite": "sprite1",
+        "timingType": "estimated_60hz_normalized"
+      }
     },
     "idle-1": {
       "rect": [
@@ -48,7 +71,12 @@
       "anchor": [
         16,
         39
-      ]
+      ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite48",
+        "timingType": "estimated_60hz_normalized"
+      }
     },
     "walk-0": {
       "rect": [
@@ -60,7 +88,12 @@
       "anchor": [
         16,
         39
-      ]
+      ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite2",
+        "timingType": "estimated_60hz_normalized"
+      }
     },
     "walk-1": {
       "rect": [
@@ -72,7 +105,12 @@
       "anchor": [
         16,
         39
-      ]
+      ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite3",
+        "timingType": "estimated_60hz_normalized"
+      }
     },
     "punch-0": {
       "rect": [
@@ -84,7 +122,12 @@
       "anchor": [
         16,
         39
-      ]
+      ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite10",
+        "timingType": "estimated_60hz_normalized"
+      }
     },
     "punch-1": {
       "rect": [
@@ -97,6 +140,11 @@
         16,
         39
       ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite15",
+        "timingType": "estimated_60hz_normalized"
+      },
       "hitboxes": [
         {
           "id": "punch_strike",
@@ -120,7 +168,12 @@
       "anchor": [
         16,
         39
-      ]
+      ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite11",
+        "timingType": "estimated_60hz_normalized"
+      }
     },
     "kick-1": {
       "rect": [
@@ -133,6 +186,11 @@
         16,
         39
       ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite21",
+        "timingType": "estimated_60hz_normalized"
+      },
       "hitboxes": [
         {
           "id": "kick_thrust",
@@ -157,6 +215,12 @@
         16,
         39
       ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite16",
+        "timingType": "estimated_60hz_normalized",
+        "technosUniversalDamage": true
+      },
       "hitboxes": [
         {
           "id": "hurt_recoil",
@@ -180,7 +244,13 @@
       "anchor": [
         16,
         39
-      ]
+      ],
+      "provenance": {
+        "classification": "sourced",
+        "originSprite": "sprite44",
+        "timingType": "estimated_60hz_normalized",
+        "technosUniversalDamage": true
+      }
     }
   },
   "animations": {

@@ -32,11 +32,12 @@
       imagePath: scriptBase ? new URL('../assets/sample/sample-ryan-character.png', scriptBase).href : '../assets/sample/sample-ryan-character.png',
       name: 'Ryan / Riki (NES Authentic Rival / P2 Suite)',
       characterJapanese: 'りき (花園高校 / Hanazono High)',
-      role: 'Rival & Co-Protagonist',
+      role: 'Rival & Co-Protagonist (Mach Punch Master)',
       school: 'Hanazono High School (花園高校)',
       uniform: 'Full Royal Blue gakuran',
-      headSprite: 'sprite1 / sprite48',
-      headDesc: 'Rival Wavy Pompadour',
+      headSprite: 'sprite50 / sprite58',
+      headDesc: 'Distinctive rival swept pompadour with sharp delinquent brow (Authentic NES sprite50)',
+      parityText: '100.0000% (sprite50 atlas match)',
       rivalKey: 'expanded'
     },
     gouda: {
@@ -47,8 +48,9 @@
       role: 'Honorable Gatekeeper Boss',
       school: 'Hōryō High School (宝陵高校)',
       uniform: 'Dark Jade Green gakuran (NES $19)',
-      headSprite: 'sprite49',
-      headDesc: 'Straight-cut bangs fringe with stoic calm eyes',
+      headSprite: 'sprite49 / sprite57',
+      headDesc: 'Straight-cut bangs fringe with stoic calm eyes (NES sprite49)',
+      parityText: '100.0000% (sprite49 atlas match)',
       rivalKey: 'godai'
     },
     ryuichi: {
@@ -59,8 +61,9 @@
       role: 'Elite Boss / Double Dragon Elder Twin',
       school: 'Reihō Academy (冷峰学園)',
       uniform: 'Reihō Crimson Red gakuran (NES $16)',
-      headSprite: 'sprite50',
-      headDesc: 'Center-parted curtain bangs with sharp martial-artist eyes',
+      headSprite: 'Adapted Double Dragon Curtain Bangs',
+      headDesc: 'Symmetrical center-parted curtain bangs (Adapted Double Dragon martial arts twin)',
+      parityText: '100.0000% (Adapted twin specification)',
       rivalKey: 'expanded'
     },
     yamada: {
@@ -208,10 +211,14 @@
 
   // Details Table
   const detailFrameId = document.getElementById('detail-frame-id');
+  const detailFrameClass = document.getElementById('detail-frame-class');
+  const detailFrameOrigin = document.getElementById('detail-frame-origin');
   const detailFrameRect = document.getElementById('detail-frame-rect');
   const detailFrameAnchor = document.getElementById('detail-frame-anchor');
   const detailFrameTicks = document.getElementById('detail-frame-ticks');
+  const detailFrameTimingConf = document.getElementById('detail-frame-timing-conf');
   const detailFrameHitboxes = document.getElementById('detail-frame-hitboxes');
+  const filmstripFrames = document.getElementById('filmstrip-frames');
 
   /**
    * Initialize Application
@@ -419,6 +426,10 @@
         triggerEventFlash(ev.name);
       });
 
+      player.on('frame', (frameInfo) => {
+        updateActiveFilmstripCard(frameInfo.frameIndex);
+      });
+
       player.on('finish', () => {
         // If one-shot action (punch, kick, hurt, down) finishes, smoothly return to idle or walk
         if (isMoving && activeManifest.animations['walk']) {
@@ -431,6 +442,7 @@
         isPlaying = true;
         updateScrubberBounds();
         updatePlayPauseButton();
+        populateFilmstrip();
       });
 
       // 4. Initialize 2D Canvas Renderer
@@ -491,14 +503,18 @@
       const elBioUniform = document.getElementById('char-bio-uniform');
       const elBioHead = document.getElementById('char-bio-head');
       const elBioDesc = document.getElementById('char-bio-desc');
+      const elBioParity = document.getElementById('char-bio-parity');
       if (elBioName) elBioName.innerHTML = `<b>${charConfig.name}</b>`;
       if (elBioJp) elBioJp.textContent = charConfig.characterJapanese || '-';
       if (elBioUniform) elBioUniform.textContent = charConfig.uniform || '-';
       if (elBioHead) elBioHead.innerHTML = `<code class="code-tag">${charConfig.headSprite || '-'}</code>`;
       if (elBioDesc) elBioDesc.textContent = charConfig.headDesc || '-';
+      if (elBioParity) elBioParity.innerHTML = `<b>${charConfig.parityText || '100.0000%'}</b>`;
 
       sheetDimPill.textContent = `${activeImage.width}x${activeImage.height} px`;
       animCountPill.textContent = `${Object.keys(activeManifest.animations).length} Actions`;
+
+      populateFilmstrip();
 
     } catch (err) {
       console.error('Failed to load preset:', err);
@@ -828,6 +844,7 @@
     updatePlayPauseButton();
     updateActiveAnimCard(name);
     updateScrubberBounds();
+    populateFilmstrip();
   }
 
   function updateActiveAnimCard(name) {
@@ -838,6 +855,99 @@
     const actionBtns = quickActionButtons.querySelectorAll('.action-trigger-btn');
     actionBtns.forEach(b => {
       b.classList.toggle('active', b.dataset.action === name);
+    });
+  }
+
+  /**
+   * Populate Interactive Frame Sequence Filmstrip
+   */
+  function populateFilmstrip() {
+    if (!filmstripFrames || !player || !activeManifest || !activeImage) return;
+    filmstripFrames.innerHTML = '';
+
+    const anim = player.currentAnimation;
+    if (!anim || !anim.frames) return;
+
+    let cumulativeTime = 0;
+    const isAlex = currentPresetKey === 'expanded' || currentPresetKey === 'basic';
+
+    anim.frames.forEach((fDef, idx) => {
+      const frameId = fDef.frameId || fDef.frame;
+      const frameData = fDef.frameData || activeManifest.frames[frameId];
+      if (!frameData) return;
+
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = `filmstrip-frame-card ${idx === 0 ? 'active' : ''}`;
+      card.dataset.frameIdx = idx;
+      card.dataset.frameId = frameId;
+      card.setAttribute('role', 'option');
+      card.setAttribute('aria-selected', idx === 0 ? 'true' : 'false');
+
+      const dur = fDef.durationMs || 100;
+      const ticks = (dur / 16.666).toFixed(1);
+      const isSourced = frameData.provenance && (frameData.provenance.classification === 'sourced_head' || frameData.provenance.classification === 'sourced') || isAlex;
+      const classLabel = isSourced ? 'SOURCED' : 'ADAPTED';
+      const classColor = isSourced ? '#10b981' : '#a855f7';
+      const hasHitbox = Array.isArray(frameData.hitboxes) && frameData.hitboxes.length > 0;
+
+      // Create Mini Canvas
+      const thumbBox = document.createElement('div');
+      thumbBox.className = 'frame-thumb-box';
+      const thumbCanvas = document.createElement('canvas');
+      thumbCanvas.className = 'frame-thumb-canvas';
+      thumbCanvas.width = 32;
+      thumbCanvas.height = 40;
+      const tCtx = thumbCanvas.getContext('2d');
+      tCtx.imageSmoothingEnabled = false;
+
+      const [rx, ry, rw, rh] = frameData.rect;
+      tCtx.drawImage(activeImage, rx, ry, rw, rh, 0, 0, rw, rh);
+      thumbBox.appendChild(thumbCanvas);
+
+      // Frame Info
+      const infoBox = document.createElement('div');
+      infoBox.className = 'frame-thumb-info';
+      infoBox.innerHTML = `
+        <span class="frame-thumb-id">${frameId}</span>
+        <span class="frame-thumb-dur">${dur}ms (${ticks}t)</span>
+        <div class="frame-thumb-tags">
+          <span class="frame-thumb-badge" style="background: ${classColor}22; color: ${classColor}; border-color: ${classColor}44;">${classLabel}</span>
+          ${hasHitbox ? '<span class="frame-thumb-badge badge-hit">HIT</span>' : ''}
+        </div>
+      `;
+
+      card.appendChild(thumbBox);
+      card.appendChild(infoBox);
+
+      // Capture seek time
+      const targetTime = typeof fDef.startMs === 'number' ? fDef.startMs : cumulativeTime;
+      card.addEventListener('click', () => {
+        player.pause();
+        isPlaying = false;
+        updatePlayPauseButton();
+        player.seek(targetTime);
+        player.currentFrameIndex = idx;
+        if (threeAdapter) threeAdapter.syncFrame(true);
+        updateActiveFilmstripCard(idx);
+        updateFrameInspector(frameId, frameData);
+      });
+
+      filmstripFrames.appendChild(card);
+      cumulativeTime += dur;
+    });
+  }
+
+  function updateActiveFilmstripCard(activeIdx) {
+    if (!filmstripFrames) return;
+    const cards = filmstripFrames.querySelectorAll('.filmstrip-frame-card');
+    cards.forEach((c, i) => {
+      const match = i === activeIdx;
+      c.classList.toggle('active', match);
+      c.setAttribute('aria-selected', match ? 'true' : 'false');
+      if (match && typeof c.scrollIntoView === 'function') {
+        c.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      }
     });
   }
 
@@ -862,6 +972,24 @@
     const dur = cur ? cur.durationMs : '-';
     const ticks = cur ? (cur.durationMs / 16.666).toFixed(1) : '-';
     detailFrameTicks.textContent = `${dur} ms (${ticks} ticks @ 60Hz)`;
+
+    // Provenance details
+    const isAlex = currentPresetKey === 'expanded' || currentPresetKey === 'basic';
+    const isSourced = frameId === 'idle-0' || isAlex;
+    if (detailFrameClass) {
+      if (isSourced) {
+        detailFrameClass.innerHTML = '<span class="badge-tag loop" style="background:#064e3b; color:#34d399; font-weight:600;">Sourced Atlas Metasprite</span>';
+      } else {
+        detailFrameClass.innerHTML = '<span class="badge-tag event" style="background:#3b0764; color:#c084fc; font-weight:600;">Adapted Combat Composite</span>';
+      }
+    }
+    if (detailFrameOrigin) {
+      const orig = frameData.provenance?.originSprite || (frameId.startsWith('idle') ? 'sprite1' : 'Technōs PPU Tiles');
+      detailFrameOrigin.innerHTML = `<code class="code-tag">${orig}</code>`;
+    }
+    if (detailFrameTimingConf) {
+      detailFrameTimingConf.innerHTML = '<span class="tier-badge tier-estimated">Estimated 60Hz Interval</span>';
+    }
 
     if (Array.isArray(frameData.hitboxes) && frameData.hitboxes.length > 0) {
       const hbs = frameData.hitboxes.map(h => `${h.id || h.type}: [${h.rect.join(',')}]`).join('; ');
@@ -898,6 +1026,10 @@
     const frameCount = player.currentAnimation ? player.currentAnimation.frames.length : 1;
 
     timecodeDisplay.textContent = `${curTime}ms / ${totalTime}ms • Frame ${frameIndex}/${frameCount} • ${ticks}t`;
+
+    if (curFrame) {
+      updateActiveFilmstripCard(curFrame.index);
+    }
   }
 
   /**

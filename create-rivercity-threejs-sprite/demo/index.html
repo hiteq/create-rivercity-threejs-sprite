@@ -219,6 +219,17 @@
           <input type="range" id="timeline-scrubber" class="scrubber-track" min="0" max="1000" value="0" step="1" aria-label="Animation Timeline Scrubber">
           <div class="timecode-label" id="timecode-display" aria-live="off">0ms / 0ms • 0.0 ticks</div>
         </div>
+
+        <!-- Frame-by-Frame Filmstrip & Step Inspector -->
+        <div class="frame-filmstrip-section" aria-label="Frame by Frame Sequence Strip">
+          <div class="filmstrip-header">
+            <span class="filmstrip-title">Frame-by-Frame Sequence Inspector</span>
+            <span class="filmstrip-hint">Click frame to pause & inspect metrics</span>
+          </div>
+          <div class="filmstrip-container" id="filmstrip-frames" role="tablist" aria-label="Animation Frames">
+            <!-- Dynamically populated filmstrip frame cards -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -250,6 +261,14 @@
             <td id="detail-frame-id" class="highlight-val">-</td>
           </tr>
           <tr>
+            <td>Frame Classification</td>
+            <td id="detail-frame-class"><span class="badge-tag" style="background:#1e293b; color:#94a3b8;">-</span></td>
+          </tr>
+          <tr>
+            <td>Metasprite Origin</td>
+            <td id="detail-frame-origin">-</td>
+          </tr>
+          <tr>
             <td>Atlas Rect [x, y, w, h]</td>
             <td id="detail-frame-rect">-</td>
           </tr>
@@ -262,6 +281,10 @@
             <td id="detail-frame-ticks">-</td>
           </tr>
           <tr>
+            <td>Timing Provenance</td>
+            <td id="detail-frame-timing-conf"><span class="tier-badge tier-estimated">Estimated 60Hz</span></td>
+          </tr>
+          <tr>
             <td>Active Hitboxes</td>
             <td id="detail-frame-hitboxes">None</td>
           </tr>
@@ -272,7 +295,7 @@
       <div class="side-card">
         <div class="card-title">
           <span>Character & Uniform Identity</span>
-          <span class="tier-badge tier-verified" id="char-tier-badge">100% NES SOURCE</span>
+          <span class="tier-badge tier-verified" id="char-tier-badge">AUTHENTIC NES ART</span>
         </div>
         <table class="meta-table" aria-label="Character Profile">
           <tr>
@@ -301,7 +324,7 @@
           </tr>
           <tr>
             <td>Head Pixel Parity</td>
-            <td><b>100.0000% (0 mismatches)</b></td>
+            <td id="char-bio-parity"><b>100.0000% (0 mismatches)</b></td>
           </tr>
           <tr>
             <td>Ground Anchor</td>
@@ -314,24 +337,28 @@
       <div class="side-card">
         <div class="card-title">
           <span>Source & Provenance Truth</span>
-          <span class="tier-badge tier-verified">VERIFIED NES CHR</span>
+          <span class="tier-badge tier-verified">TRANSPARENT PROVENANCE</span>
         </div>
         <table class="meta-table" aria-label="Data Provenance">
           <tr>
-            <td>Source ROM Data</td>
-            <td><span class="tier-badge tier-verified">NES Ricoh 2C02 PPU Tiles</span></td>
+            <td>Source Reference Atlas</td>
+            <td><span class="tier-badge tier-verified">The Spriters Resource NES Rip</span></td>
           </tr>
           <tr>
             <td>IP Rights Holder</td>
             <td>Arc System Works Co., Ltd. (Technōs Japan)</td>
           </tr>
           <tr>
-            <td>Timing Confidence</td>
-            <td><span class="tier-badge tier-verified">NES 60Hz NTSC Clock Aligned</span></td>
+            <td>Sourced Base Tiles</td>
+            <td>Kunio combat metasprites + 5 rival head tiles</td>
           </tr>
           <tr>
-            <td>Action Framing</td>
-            <td>Technōs Modular Metasprite Composition</td>
+            <td>Adapted Composites</td>
+            <td>Action body composites & universal recoil palette mapping</td>
+          </tr>
+          <tr>
+            <td>Timing Pacing</td>
+            <td><span class="tier-badge tier-estimated">Estimated 60Hz Normalized Pacing</span></td>
           </tr>
           <tr>
             <td>Flipping Stability</td>
@@ -388,11 +415,11 @@
       <!-- Provenance Matrix -->
       <div class="doc-card">
         <h3>📋 Provenance & Accuracy Tiers</h3>
-        <p>Strict distinction must always be maintained between:</p>
+        <p>Strict distinction is maintained across asset origins without false ROM claims:</p>
         <ul style="padding-left: 18px; color: var(--text-secondary); margin-top: 4px; display: flex; flex-direction: column; gap: 4px;">
-          <li><span class="tier-badge tier-verified">Verified Source Data</span>: Extracted from ROM CHR dumps or emulator frame-advance logs (FCEUX, Mesen).</li>
-          <li><span class="tier-badge tier-estimated">Reconstructed / Estimated Data</span>: Ripped sheets or fan-assembled animations with estimated 60Hz tick durations.</li>
-          <li><span class="tier-badge tier-original">Original Artwork</span>: Newly authored characters adhering to Kunio-kun visual grammar and palette constraints (CC0).</li>
+          <li><span class="tier-badge tier-verified">Sourced Reference Frame</span>: Directly derived from bundled third-party community NES rips (The Spriters Resource) preserving authentic PPU metatiles.</li>
+          <li><span class="tier-badge tier-estimated">Adapted Composite Frame</span>: Metasprite combinations (e.g. boss hurt/down using shared NES hit geometry, Ryuichi adapted head) assembled to match character palettes.</li>
+          <li><span class="tier-badge tier-original">Estimated Timing</span>: 60Hz tick intervals calibrated to authentic NES belt-scroll rhythm; not raw emulator RAM log timings.</li>
         </ul>
       </div>
     </div>
